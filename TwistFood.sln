@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwistFood.UnitTest", "test\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwistFood.Api", "src\TwistFood.Api\TwistFood.Api.csproj", "{E8469195-F099-488A-937A-789FDF7750DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwistFood.IntegrationTest", "TwistFood.IntegrationTest\TwistFood.IntegrationTest.csproj", "{A1228DFB-4EB8-45AB-9C82-C43A16B3F5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwistFood.IntegrationTest", "test\TwistFood.IntegrationTest\TwistFood.IntegrationTest.csproj", "{467791CA-459F-4178-AA0E-8913E3BF2FA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 		{E8469195-F099-488A-937A-789FDF7750DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8469195-F099-488A-937A-789FDF7750DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8469195-F099-488A-937A-789FDF7750DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1228DFB-4EB8-45AB-9C82-C43A16B3F5C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1228DFB-4EB8-45AB-9C82-C43A16B3F5C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1228DFB-4EB8-45AB-9C82-C43A16B3F5C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1228DFB-4EB8-45AB-9C82-C43A16B3F5C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{467791CA-459F-4178-AA0E-8913E3BF2FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{467791CA-459F-4178-AA0E-8913E3BF2FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{467791CA-459F-4178-AA0E-8913E3BF2FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{467791CA-459F-4178-AA0E-8913E3BF2FA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,7 +59,7 @@ Global
 		{2653E4B1-9B02-4B03-9937-957CF2791431} = {F844247A-E5E8-4BB5-BB11-116786B6116E}
 		{97BF3917-BC6F-4859-B703-724EEE1FEB88} = {99E93EBD-36F0-4A6F-A607-C392DCE3CE1C}
 		{E8469195-F099-488A-937A-789FDF7750DA} = {F844247A-E5E8-4BB5-BB11-116786B6116E}
-		{A1228DFB-4EB8-45AB-9C82-C43A16B3F5C0} = {99E93EBD-36F0-4A6F-A607-C392DCE3CE1C}
+		{467791CA-459F-4178-AA0E-8913E3BF2FA6} = {99E93EBD-36F0-4A6F-A607-C392DCE3CE1C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B8ABF37-3E35-4B81-A32F-C38904DD4F14}
