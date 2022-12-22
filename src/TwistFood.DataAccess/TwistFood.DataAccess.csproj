@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DbContexts\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Configurations\" />
+    <Folder Include="SeedData\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TwistFood.Domain\TwistFood.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
