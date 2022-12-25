@@ -10,24 +10,23 @@ using TwistFood.Api.Models;
 using TwistFood.DataAccess.Common.Interfaces;
 using TwistFood.DataAccess.Common.Utils;
 using TwistFood.DataAccess.Interfaces;
-using TwistFood.DataAccess.Services.Common;
 using TwistFood.Domain.Exceptions;
 
 namespace TwistFood.DataAccess.Services
 {
-    public class AdminService : IAdminService
+    public class CategoryService : ICategoryService
     {
         private readonly AppDbContext AppDbContex;
         private readonly IPaginatorService _paginator;
 
-        public AdminService(AppDbContext appDbContext,IPaginatorService paginatorService)
+        public CategoryService(AppDbContext appDbContext, IPaginatorService paginatorService)
         {
             this.AppDbContex = appDbContext;
             this._paginator = paginatorService;
         }
-        public async Task<bool> CreateAsync(Admin admin)
+        public async Task<bool> CreateAsync(Category category)
         {
-            AppDbContex.Admins.Add(admin);
+            AppDbContex.Categories.Add(category);
             var result = await AppDbContex.SaveChangesAsync();
 
             return result > 0;
@@ -35,42 +34,41 @@ namespace TwistFood.DataAccess.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await AppDbContex.Admins.FindAsync(id);
-            if (entity == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Admin not found"); }
-            AppDbContex.Admins.Remove(entity);
+            var entity = await AppDbContex.Categories.FindAsync(id);
+            if (entity == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found"); }
+            AppDbContex.Categories.Remove(entity);
             var result = await AppDbContex.SaveChangesAsync();
             return result > 0;
         }
 
-        public async Task<IEnumerable<Admin>> GetAllAsync(PagenationParams @params)
+        public async Task<IEnumerable<Category>> GetAllAsync(PagenationParams @params)
         {
-            var query = AppDbContex.Admins.OrderBy(x => x.Id).ThenBy(x => x.FullName).AsNoTracking();
+           var query = AppDbContex.Categories.OrderBy(x => x.Id).ThenBy(x => x.CategoryName).AsNoTracking();
 
             var data = await _paginator.ToPagedAsync(query, @params.PageNumber, @params.PageSize);
 
             return data;
         }
 
-        public async Task<Admin> GetAsync(int id)
+        public async Task<Category> GetAsync(int id)
         {
-
-            var result = await AppDbContex.Admins.FindAsync(id);
-            if (result is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Admin not found");
+            var result = await AppDbContex.Categories.FindAsync(id);
+            if (result is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found");
             else return result;
         }
 
-        public async Task<bool> UpdateAsync(int id, Admin admin)
+        public async Task<bool> UpdateAsync(int id, Category category)
         {
-            var entity = await AppDbContex.Admins.FindAsync(id);
+            var entity = await AppDbContex.Categories.FindAsync(id);
             if (entity is not null)
             {
                 AppDbContex.Entry(entity!).State = EntityState.Detached;
-                admin.Id = id;
-                AppDbContex.Admins.Update(admin);
+                category.Id = id;
+                AppDbContex.Categories.Update(category);
                 var result = await AppDbContex.SaveChangesAsync();
                 return result > 0;
             }
-            else throw new StatusCodeException(HttpStatusCode.NotFound, "Admin not found");
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found");
         }
     }
 }

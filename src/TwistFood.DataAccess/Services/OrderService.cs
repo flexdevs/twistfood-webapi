@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Runtime.ConstrainedExecution;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TwistFood.Api.DbContexts;
 using TwistFood.Api.Models;
@@ -16,19 +14,19 @@ using TwistFood.Domain.Exceptions;
 
 namespace TwistFood.DataAccess.Services
 {
-    public class UserService : IUserService
+    public class OrderService : IOrderService
     {
         private readonly AppDbContext AppDbContex;
         private readonly IPaginatorService _paginator;
 
-        public UserService(AppDbContext appDbContext, IPaginatorService paginatorService)
+        public OrderService(AppDbContext appDbContext, IPaginatorService paginatorService)
         {
-            this.AppDbContex = appDbContext;  
+            this.AppDbContex = appDbContext;
             this._paginator = paginatorService;
         }
-        public async Task<bool> CreateAsync(User user)
+        public async Task<bool> CreateAsync(Order order)
         {
-            AppDbContex.Users.Add(user);    
+            AppDbContex.Orders.Add(order);
             var result = await AppDbContex.SaveChangesAsync();
 
             return result > 0;
@@ -36,41 +34,41 @@ namespace TwistFood.DataAccess.Services
 
         public async Task<bool> DeleteAsync(long id)
         {
-           var entity = await  AppDbContex.Users.FindAsync(id);
+            var entity = await AppDbContex.Orders.FindAsync(id);
             if (entity == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
-            AppDbContex.Users.Remove(entity);   
+            AppDbContex.Orders.Remove(entity);
             var result = await AppDbContex.SaveChangesAsync();
-            return result>0;    
+            return result > 0;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync( PagenationParams @params)
+        public async Task<IEnumerable<Order>> GetAllAsync(PagenationParams @params)
         {
-            var query = AppDbContex.Users.OrderBy(x => x.Id).ThenBy(x => x.FullName).AsNoTracking();
+            var query = AppDbContex.Orders.OrderBy(x => x.Id).ThenBy(x => x.CreateAt).AsNoTracking();
 
-           var data = await _paginator.ToPagedAsync(query, @params.PageNumber, @params.PageSize); 
-            
+            var data = await _paginator.ToPagedAsync(query, @params.PageNumber, @params.PageSize);
+
             return data;
         }
 
-        public async Task<User> GetAsync(long id)
+        public async Task<Order> GetAsync(long id)
         {
-            var result = await AppDbContex.Users.FindAsync(id);
-            if (result is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
+            var result = await AppDbContex.Orders.FindAsync(id);
+            if (result is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
             else return result;
         }
 
-        public async Task<bool> UpdateAsync(long id, User user)
+        public async Task<bool> UpdateAsync(long id, Order order)
         {
-            var entity = await AppDbContex.Users.FindAsync(id);
+            var entity = await AppDbContex.Orders.FindAsync(id);
             if (entity is not null)
             {
                 AppDbContex.Entry(entity!).State = EntityState.Detached;
-                user.Id = id;
-                AppDbContex.Users.Update(user);
+                order.Id = id;
+                AppDbContex.Orders.Update(order);
                 var result = await AppDbContex.SaveChangesAsync();
                 return result > 0;
             }
-            else throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
         }
     }
 }
