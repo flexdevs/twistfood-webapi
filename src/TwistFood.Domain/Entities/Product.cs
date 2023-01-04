@@ -1,8 +1,9 @@
-﻿namespace TwistFood.Api.Models;
+﻿using OnlineMarket.Domain.Common;
 
-public class Product
+namespace TwistFood.Api.Models;
+
+public class Product : BaseEntity
 {
-    public long Id { get; set; }
     public int CategoryId { get; set; } 
     public virtual Category Category { get; set; } = default!;
     public string ProductName { get; set; } = string.Empty; 
