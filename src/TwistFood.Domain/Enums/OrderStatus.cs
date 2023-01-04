@@ -1,4 +1,4 @@
-﻿namespace TwistFood.Api.Common.Enums
+﻿namespace TwistFood.Domain.Enums
 {
     public class OrderStatus
     {
