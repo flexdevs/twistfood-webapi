@@ -1,10 +1,10 @@
-﻿using System.Drawing;
+﻿using OnlineMarket.Domain.Common;
+using System.Drawing;
 
 namespace TwistFood.Api.Models;
 
-public class Location
+public class Location : BaseEntity
 {
-    public long Id { get; set; }    
     public long UserId { get; set; }
     public virtual User User { get; set; } 
     public string ILocation { get; set; } = string.Empty;   

@@ -1,9 +1,9 @@
-﻿namespace TwistFood.Api.Models;
+﻿using OnlineMarket.Domain.Common;
 
-public class OrderDetail
+namespace TwistFood.Api.Models;
+
+public class OrderDetail : BaseEntity
 {
-    public long Id { get; set; }
-
     public long OrderId { get; set; }
     public virtual Order Order { get; set; } = default!;
     public long ProductId { get; set; } 

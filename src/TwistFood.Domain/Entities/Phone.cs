@@ -1,8 +1,9 @@
-﻿namespace TwistFood.Api.Models;
+﻿using OnlineMarket.Domain.Common;
 
-public class Phone
+namespace TwistFood.Api.Models;
+
+public class Phone : BaseEntity
 {
-    public long Id { get; set; }
     public long UserId { get; set; }    
     public virtual User User { get; set; } = default!;
     public string PhoneId { get; set; } = string.Empty;

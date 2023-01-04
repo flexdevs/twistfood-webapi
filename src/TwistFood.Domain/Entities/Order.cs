@@ -1,10 +1,10 @@
-﻿using TwistFood.Domain.Enums;
+﻿using OnlineMarket.Domain.Common;
+using TwistFood.Domain.Enums;
 
 namespace TwistFood.Api.Models;
 
-public class Order
-{
-    public long Id { get; set; }    
+public class Order : BaseEntity
+{ 
     public long UserId { get; set; }    
     public virtual User User { get; set; } = default!;
     public int DeliverId { get; set; }  
