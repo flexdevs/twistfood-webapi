@@ -22,42 +22,32 @@ namespace TwistFood.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TwistFood.Api.Models.Admin", b =>
+            modelBuilder.Entity("TwistFood.Domain.Common.Location", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision");
 
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Salt")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Category", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Categories.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -71,48 +61,13 @@ namespace TwistFood.DataAccess.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Deliver", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Discounts.Discount", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Imagepath")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PassportSeriaNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double>("Salary")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Delivers");
-                });
-
-            modelBuilder.Entity("TwistFood.Api.Models.Discount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -138,12 +93,15 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.ToTable("Discounts");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Location", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Employees.Admin", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,44 +109,38 @@ namespace TwistFood.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("AdditionInfo")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ILocation")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("TwistFood.Api.Models.Operator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("FullName")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Imagepath")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PassportSeriaNumber")
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsHead")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PassportNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PassportSeria")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -199,12 +151,19 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<double>("Salary")
                         .HasColumnType("double precision");
 
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Operators");
+                    b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Order", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Employees.Deliver", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,17 +171,114 @@ namespace TwistFood.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("CreateAt")
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PassportNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PassportSeria")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Delivers");
+                });
+
+            modelBuilder.Entity("TwistFood.Domain.Entities.Employees.Operator", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PassportNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PassportSeria")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Operators");
+                });
+
+            modelBuilder.Entity("TwistFood.Domain.Entities.Order.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<double>("DeleviryPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("DeliverId")
-                        .HasColumnType("integer");
+                    b.Property<long>("DeliverId")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("DiscountId")
-                        .HasColumnType("integer");
+                    b.Property<DateTime?>("DeliveredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("DiscountId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("ILocationId")
                         .HasColumnType("bigint");
@@ -230,18 +286,20 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<bool>("IsDiscount")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("OperatorId")
-                        .HasColumnType("integer");
+                    b.Property<long>("OperatorId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("PaymentType")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<double>("TotalSum")
                         .HasColumnType("double precision");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -261,7 +319,7 @@ namespace TwistFood.DataAccess.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.OrderDetail", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Order.OrderDetail", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -290,13 +348,16 @@ namespace TwistFood.DataAccess.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Phone", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Phones.Phone", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PhoneId")
                         .IsRequired()
@@ -305,6 +366,9 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -316,7 +380,7 @@ namespace TwistFood.DataAccess.Migrations
                     b.ToTable("Phones");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Product", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Products.Product", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -324,8 +388,11 @@ namespace TwistFood.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
@@ -342,6 +409,9 @@ namespace TwistFood.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -349,13 +419,16 @@ namespace TwistFood.DataAccess.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.User", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Users.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -366,52 +439,43 @@ namespace TwistFood.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TelegramId")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Location", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Order.Order", b =>
                 {
-                    b.HasOne("TwistFood.Api.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TwistFood.Api.Models.Order", b =>
-                {
-                    b.HasOne("TwistFood.Api.Models.Deliver", "Deliver")
+                    b.HasOne("TwistFood.Domain.Entities.Employees.Deliver", "Deliver")
                         .WithMany()
                         .HasForeignKey("DeliverId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TwistFood.Api.Models.Discount", "Discount")
+                    b.HasOne("TwistFood.Domain.Entities.Discounts.Discount", "Discount")
                         .WithMany()
                         .HasForeignKey("DiscountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TwistFood.Api.Models.Location", "ILocation")
+                    b.HasOne("TwistFood.Domain.Common.Location", "ILocation")
                         .WithMany()
                         .HasForeignKey("ILocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TwistFood.Api.Models.Operator", "Operator")
+                    b.HasOne("TwistFood.Domain.Entities.Employees.Operator", "Operator")
                         .WithMany()
                         .HasForeignKey("OperatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TwistFood.Api.Models.User", "User")
+                    b.HasOne("TwistFood.Domain.Entities.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -428,15 +492,15 @@ namespace TwistFood.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.OrderDetail", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Order.OrderDetail", b =>
                 {
-                    b.HasOne("TwistFood.Api.Models.Order", "Order")
+                    b.HasOne("TwistFood.Domain.Entities.Order.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TwistFood.Api.Models.Product", "Product")
+                    b.HasOne("TwistFood.Domain.Entities.Products.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -447,9 +511,9 @@ namespace TwistFood.DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Phone", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Phones.Phone", b =>
                 {
-                    b.HasOne("TwistFood.Api.Models.User", "User")
+                    b.HasOne("TwistFood.Domain.Entities.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -458,9 +522,9 @@ namespace TwistFood.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TwistFood.Api.Models.Product", b =>
+            modelBuilder.Entity("TwistFood.Domain.Entities.Products.Product", b =>
                 {
-                    b.HasOne("TwistFood.Api.Models.Category", "Category")
+                    b.HasOne("TwistFood.Domain.Entities.Categories.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
