@@ -1,6 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Drawing;
-using TwistFood.Api.Models;
+using TwistFood.Domain.Common;
+using TwistFood.Domain.Entities.Categories;
+using TwistFood.Domain.Entities.Discounts;
+using TwistFood.Domain.Entities.Employees;
+using TwistFood.Domain.Entities.Order;
+using TwistFood.Domain.Entities.Phones;
+using TwistFood.Domain.Entities.Products;
+using TwistFood.Domain.Entities.Users;
 
 namespace TwistFood.Api.DbContexts
 {
