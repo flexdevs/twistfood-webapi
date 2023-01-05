@@ -9,14 +9,15 @@
   <ItemGroup>
     <Folder Include="Common\Helpers\" />
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Attributes\" />
     <Folder Include="Common\Validations\" />
-    <Folder Include="Common\Security\" />
     <Folder Include="Common\Utils\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Interfaces\Users\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
   </ItemGroup>
 
   <ItemGroup>
