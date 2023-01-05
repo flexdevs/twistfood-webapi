@@ -9,7 +9,7 @@ using TwistFood.Service.Common.Attributes;
 
 namespace TwistFood.Service.Dtos.Account
 {
-    public class AccountRegistrDto
+    public class AccountRegisterDto
     {
         public string? TelegramId { get; set; }
         [Required, MaxLength(60), MinLength(2)]
@@ -18,13 +18,13 @@ namespace TwistFood.Service.Dtos.Account
         public string PhoneNumber { get; set; } = string.Empty;
         public string? PhoneId { get; set; }
 
-        public static implicit operator User(AccountRegistrDto accountRegistrDto)
+        public static implicit operator User(AccountRegisterDto accountRegisterDto)
         {
             return new User()
             {
-                FullName = accountRegistrDto.FullName,
-                PhoneNumber = accountRegistrDto.PhoneNumber,
-                TelegramId = accountRegistrDto.TelegramId
+                FullName = accountRegisterDto.FullName,
+                PhoneNumber = accountRegisterDto.PhoneNumber,
+                TelegramId = accountRegisterDto.TelegramId
             };
         }  
     }

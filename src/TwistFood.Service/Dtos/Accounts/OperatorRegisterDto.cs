@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TwistFood.Service.Dtos.Accounts
 {
-    internal class OperatorRegistrDto
+    internal class OperatorRegisterDto
     {
     }
 }
