@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Drawing;
+using TwistFood.DataAccess.Configurations;
 using TwistFood.Domain.Common;
 using TwistFood.Domain.Entities.Categories;
 using TwistFood.Domain.Entities.Discounts;
@@ -13,6 +14,10 @@ namespace TwistFood.Api.DbContexts
 {
     public class AppDbContext : DbContext
     {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+        {
+        }
         public virtual DbSet<User> Users { get; set; } = default!;
         public virtual DbSet<Location> Locations { get; set; } = default!;
         public virtual DbSet<Phone> Phones { get; set; } = default!;
@@ -26,10 +31,10 @@ namespace TwistFood.Api.DbContexts
         public virtual DbSet<Discount> Discounts { get; set; } = default!;
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            string CONNECTIONSTRING = "Host=localhost; Port=5432; Database=TwistFood-db; User Id=postgres; Password=1212;";
-            optionsBuilder.UseNpgsql(CONNECTIONSTRING); 
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new SuperAdminConfiguration());
         }
     }
 }
