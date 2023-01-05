@@ -25,8 +25,7 @@ namespace TwistFood.DataAccess.Configurations
                 UpdatedAt = DateTime.Now,
                 ImagePath = "",
                 Salary = 3500,
-                PassportSeria = "AD",
-                PassportNumber = 1234567,
+                PassportSeriaNumber = "AD 1234567",
                 PasswordHash = "$2a$12$QTe.2qNCBMiTaoZ2TeHuJuI6Tn5sknacPD0GISbqANErhSX.rSFsa",
                 Salt = "9f8c6209-18f6-4628-83e5-110a2e8fe406"
 

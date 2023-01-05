@@ -16,6 +16,5 @@ public abstract class Employee : Auditable
     public double Salary { get; set; }
     public DateTime BirthDate { get; set; }
     public string PhoneNumber { get; set; } = String.Empty;
-    public string PassportSeria { get; set; } = String.Empty;
-    public int PassportNumber { get; set; }
+    public string PassportSeriaNumber { get; set; } = String.Empty;
 }
