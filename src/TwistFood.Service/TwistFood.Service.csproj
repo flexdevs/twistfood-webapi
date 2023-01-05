@@ -13,7 +13,6 @@
     <Folder Include="Common\Validations\" />
     <Folder Include="Common\Security\" />
     <Folder Include="Common\Utils\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Interfaces\Users\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Services\" />
