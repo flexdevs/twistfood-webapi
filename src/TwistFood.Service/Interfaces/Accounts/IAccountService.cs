@@ -11,6 +11,6 @@ namespace TwistFood.Service.Interfaces.Accounts
     public interface IAccountService
     {
         public Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto);
-        public Task<bool> AccountRegistrAsync(AccountRegisterDto accountRegistrDto);
+        public Task<bool> AccountRegisterAsync(AccountRegisterDto accountRegisterDto);
     }
 }
