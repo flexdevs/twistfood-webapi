@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using TwistFood.Domain.Entities.Users;
 
-namespace CarShop.Api.Common.Security;
+namespace TwistFood.Service.Security;
 public class AuthManager : IAuthManager
 {
     private readonly IConfiguration _config;
@@ -21,15 +21,15 @@ public class AuthManager : IAuthManager
         var claims = new[]
         {
             new Claim("Id", user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim("FullName", user.FullName),
+            new Claim("PhoneNumber",user.PhoneNumber)
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretKey"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
         var tokenDescriptor = new JwtSecurityToken(_config["Issuer"], _config["Audience"], claims,
-            expires: DateTime.Now.AddMinutes(double.Parse(_config["Lifetime"])),
+            expires: DateTime.Now.AddMonths(int.Parse(_config["Lifetime"])),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
