@@ -85,17 +85,21 @@ namespace TwistFood.Service.Services.Accounts
 
             if (accountRegistrDto.PhoneId!= null) 
             {
-                var user = await 
+                var user1 = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegistrDto.PhoneNumber);
+
                 Phone phone = new Phone()
                 {
                     PhoneId = accountRegistrDto.PhoneId,
                     UpdatedAt = DateTime.UtcNow,
                     CreatedAt = DateTime.UtcNow,
-                    UserId = user.Id,
+                    UserId = user1!.Id,
                     Status = "Active"
                 };
                 _unitOfWork.Phones.Add(phone);  
+               await  _unitOfWork.SaveChangesAsync();
             }
+
+            return true;
 
         }
     }
