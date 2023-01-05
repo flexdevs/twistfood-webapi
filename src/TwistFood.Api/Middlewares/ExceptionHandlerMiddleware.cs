@@ -7,6 +7,7 @@ namespace TwistFood.Api.Middlewares
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+
         public ExceptionHandlerMiddleware(RequestDelegate next)
         {
             this._next = next;
