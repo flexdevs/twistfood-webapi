@@ -1,7 +1,5 @@
 using TwistFood.DataAccess.Common.Interfaces;
 using TwistFood.DataAccess.Interfaces;
-using TwistFood.DataAccess.Services;
-using TwistFood.DataAccess.Services.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +8,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<IPaginatorService, PaginatorService>();
-builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<IUserService, UserService>();
 
 
 
