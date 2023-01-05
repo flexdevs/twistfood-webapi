@@ -61,9 +61,9 @@ namespace TwistFood.Service.Services.Accounts
             return _authManager.GenerateToken(user);
         }
 
-        public async Task<bool> AccountRegistrAsync(AccountRegisterDto accountRegistrDto)
+        public async Task<bool> AccountRegisterAsync(AccountRegisterDto accountRegisterDto)
         {
-            var res = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegistrDto.PhoneNumber);
+            var res = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegisterDto.PhoneNumber);
             if (res is not null)
                 throw new StatusCodeException(HttpStatusCode.Conflict, "User is already exist");
             
@@ -71,25 +71,25 @@ namespace TwistFood.Service.Services.Accounts
             {
                 CreatedAt= DateTime.UtcNow, 
                 UpdatedAt= DateTime.UtcNow, 
-                FullName = accountRegistrDto.FullName,  
-                PhoneNumber= accountRegistrDto.PhoneNumber  
+                FullName = accountRegisterDto.FullName,  
+                PhoneNumber= accountRegisterDto.PhoneNumber  
                   
             };
-            if (accountRegistrDto.TelegramId!= null) 
+            if (accountRegisterDto.TelegramId!= null) 
             {
-                user.TelegramId = accountRegistrDto.TelegramId;
+                user.TelegramId = accountRegisterDto.TelegramId;
             }
             _unitOfWork.Users.Add(user);    
             await _unitOfWork.SaveChangesAsync();   
 
 
-            if (accountRegistrDto.PhoneId!= null) 
+            if (accountRegisterDto.PhoneId!= null) 
             {
-                var user1 = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegistrDto.PhoneNumber);
+                var user1 = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegisterDto.PhoneNumber);
 
                 Phone phone = new Phone()
                 {
-                    PhoneId = accountRegistrDto.PhoneId,
+                    PhoneId = accountRegisterDto.PhoneId,
                     UpdatedAt = DateTime.UtcNow,
                     CreatedAt = DateTime.UtcNow,
                     UserId = user1!.Id,
