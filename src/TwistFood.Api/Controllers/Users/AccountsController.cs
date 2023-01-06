@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Account;
+using TwistFood.Service.Dtos.Accounts;
 using TwistFood.Service.Interfaces.Accounts;
 
 namespace TwistFood.Api.Controllers.Users
@@ -11,9 +12,13 @@ namespace TwistFood.Api.Controllers.Users
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        public AccountsController(IAccountService accountService)
+        private readonly ISendToPhoneNumberService _sendToPhoneNumberService;
+
+        public AccountsController(IAccountService accountService, 
+            ISendToPhoneNumberService sendToPhoneNumberService)
         {
             this._accountService = accountService;
+            this._sendToPhoneNumberService = sendToPhoneNumberService;
         }
 
         [HttpPost("register")]
@@ -23,5 +28,9 @@ namespace TwistFood.Api.Controllers.Users
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto dto)
             => Ok(new { Token = await _accountService.AccountLoginAsync(dto) });
+
+        [HttpGet("send-to-phone-number")]
+        public async Task<IActionResult> SendCodeAsync([FromForm] SendToPhoneNumberDto dto)
+            => Ok(await _sendToPhoneNumberService.SendCodeAsync(dto));
     }
 }
