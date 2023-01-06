@@ -30,7 +30,7 @@ namespace TwistFood.Api.Controllers.Users
             => Ok(new { Token = await _accountService.AccountLoginAsync(dto) });
 
         [HttpGet("send-to-phone-number")]
-        public async Task<IActionResult> SendCodeAsync([FromForm] SendToPhoneNumberDto dto)
+        public async Task<IActionResult> SendCodeAsync([FromQuery] SendToPhoneNumberDto dto)
             => Ok(await _sendToPhoneNumberService.SendCodeAsync(dto));
     }
 }

@@ -14,7 +14,7 @@ namespace TwistFood.Service.Common.Attributes
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             string phoneNumber = (string)value!;
-            Regex regex = new Regex("^(?:\\+\\([9]{2}[8]\\)[0-9]{2}\\ [0-9]{3}\\-[0-9]{2}\\-[0-9]{2})");
+            Regex regex = new Regex("^(?:\\+998([- ])?(90|91|93|94|95|98|99|33|97|71|99|88)([- ])?(\\d{3})([- ])?(\\d{2})([- ])?(\\d{2}))");
 
             return regex.Match(phoneNumber).Success ? ValidationResult.Success
                 : new ValidationResult("Please enter valid phone number. Phone must be contains only numbers or + character");
