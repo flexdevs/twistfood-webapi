@@ -14,7 +14,7 @@ namespace TwistFood.Service.Attributes
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (value == null) new ValidationResult("Pasport Seria can not be null!");
-            Regex regex = new Regex(@"^([A-Z]{2}) ([[0-9]{7}?)$");
+            Regex regex = new Regex(@"^(?!){0}([A-Z]{2} [0-9]{7})$");
             if (regex.Match(value.ToString()!).Success)
                 return ValidationResult.Success;
 

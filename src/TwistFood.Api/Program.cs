@@ -5,9 +5,15 @@ using TwistFood.Api.Middlewares;
 using TwistFood.DataAccess.Common.Interfaces;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.DataAccess.Repositories;
+using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
+using TwistFood.Service.Interfaces.Categories;
+using TwistFood.Service.Interfaces.Delivers;
 using TwistFood.Service.Security;
+using TwistFood.Service.Services;
 using TwistFood.Service.Services.Accounts;
+using TwistFood.Service.Services.Categories;
+using TwistFood.Service.Services.Delivers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,13 +30,20 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connect
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IDeliverRegisterService, DeliverRegisterService>();
 builder.Services.AddScoped<ISendToPhoneNumberService, SendToPhoneNumberService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVerifyEmailService, VerifyEmailService>();
+builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<ICreateCategoryService, CreateCategoryService>();
 
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseStaticFiles();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
