@@ -12,6 +12,7 @@ namespace TwistFood.Service.Dtos
     {
         [Required,MaxLength(50),MinLength(2)]
         public string CategoryName { get; set; }   = string.Empty;
+
         public static implicit operator Category(CategoryDto category)
         {
             return new Category()
