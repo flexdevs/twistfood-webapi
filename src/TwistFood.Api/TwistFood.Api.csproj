@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TwistFood.DataAccess\TwistFood.DataAccess.csproj" />
     <ProjectReference Include="..\TwistFood.Service\TwistFood.Service.csproj" />
   </ItemGroup>
 
