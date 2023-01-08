@@ -7,7 +7,7 @@ using TwistFood.Service.Interfaces.Accounts;
 
 namespace TwistFood.Api.Controllers.Users
 {
-    [Route("api/accounts")]
+    [Route("api/user")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -21,12 +21,13 @@ namespace TwistFood.Api.Controllers.Users
             this._sendToPhoneNumberService = sendToPhoneNumberService;
         }
 
+
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromForm] AccountRegisterDto dto)
+        public async Task<IActionResult> RegisterAsync([FromBody] AccountRegisterDto dto)
             => Ok(await _accountService.AccountRegisterAsync(dto));
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto dto)
+        public async Task<IActionResult> LoginAsync([FromBody] AccountLoginDto dto)
             => Ok(new { Token = await _accountService.AccountLoginAsync(dto) });
 
         [HttpGet("send-to-phone-number")]

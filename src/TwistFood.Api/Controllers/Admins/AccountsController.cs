@@ -6,7 +6,7 @@ using TwistFood.Service.Interfaces.Accounts;
 
 namespace TwistFood.Api.Controllers.Admins
 {
-    [Route("api/accounts")]
+    [Route("api/admins")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
