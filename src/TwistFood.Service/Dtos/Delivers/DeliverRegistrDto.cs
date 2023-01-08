@@ -39,7 +39,9 @@ namespace TwistFood.Service.Dtos
                 PhoneNumber = dto.PhoneNumber,
                 BirthDate = dto.BirthDate,
                 Salary = dto.Salary,
-                PassportSeriaNumber = dto.PassportSeriaNumber
+                PassportSeriaNumber = dto.PassportSeriaNumber,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt= DateTime.UtcNow
             };
         }
     }
