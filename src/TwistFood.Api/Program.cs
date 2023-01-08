@@ -9,11 +9,15 @@ using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
 using TwistFood.Service.Interfaces.Categories;
 using TwistFood.Service.Interfaces.Delivers;
+using TwistFood.Service.Interfaces.Operators;
+using TwistFood.Service.Interfaces.Products;
 using TwistFood.Service.Security;
 using TwistFood.Service.Services;
 using TwistFood.Service.Services.Accounts;
 using TwistFood.Service.Services.Categories;
 using TwistFood.Service.Services.Delivers;
+using TwistFood.Service.Services.Operators;
+using TwistFood.Service.Services.Products;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +40,8 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVerifyEmailService, VerifyEmailService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<ICreateCategoryService, CreateCategoryService>();
+builder.Services.AddScoped<IOperatorService, OperatorService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 
 
