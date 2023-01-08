@@ -18,7 +18,7 @@ namespace TwistFood.Api.Controllers.Delivers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromForm] DeliverRegistrDto dto)
+        public async Task<IActionResult> RegisterAsync([FromBody] DeliverRegistrDto dto)
             => Ok(await _deliverRegisterService.DeliverRegisterAsync(dto));
     }
 }

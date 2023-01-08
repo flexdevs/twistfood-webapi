@@ -58,7 +58,7 @@ namespace TwistFood.Service.Services.Accounts
             }
             await _unitOfWork.SaveChangesAsync();
 
-            return _authManager.GenerateToken(user);
+            return _authManager.GenerateUserToken(user);
         }
 
         public async Task<bool> AccountRegisterAsync(AccountRegisterDto accountRegisterDto)

@@ -18,7 +18,7 @@ namespace TwistFood.Api.Controllers.Categories
         }
 
         [HttpPost("add-category")]
-        public async Task<IActionResult> RegisterAsync([FromForm] CategoryDto dto)
+        public async Task<IActionResult> RegisterAsync([FromBody] CategoryDto dto)
             => Ok(await _createCategoryService.CreateCategoryAsync(dto));
     }
 }
