@@ -38,11 +38,12 @@ namespace TwistFood.Service.Services.Delivers
             {
                 deliver.ImagePath = await _fileService.SaveImageAsync(deliverRegistrDto.Image);
             }
-
+            
+            deliver.BirthDate =(deliver.BirthDate.ToUniversalTime());
             _unitOfWork.Delivers.Add(deliver);
-            await _unitOfWork.SaveChangesAsync();
+             var result =  await _unitOfWork.SaveChangesAsync();
 
-            return true;
+            return result>0;
         }
     }
 }
