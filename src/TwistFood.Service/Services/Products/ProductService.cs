@@ -39,11 +39,11 @@ namespace TwistFood.Service.Services.Products
             {
                 product.ImagePath = await _fileService.SaveImageAsync(createProductsDto.Image);
             }
-            /*var category = await _unitOfWork.Categories.FindByIdAsync(product.CategoryId);
-            if(category is null)
+            var category = await _unitOfWork.Categories.FindByIdAsync(createProductsDto.CategoryId);
+            if (category is null)
             {
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found");
-            }*/
+            }
             product.CategoryId = createProductsDto.CategoryId;
             _unitOfWork.Products.Add(product);
             await _unitOfWork.SaveChangesAsync();
@@ -89,6 +89,7 @@ namespace TwistFood.Service.Services.Products
             {
                 _unitOfWork.Entry(res).State = EntityState.Detached;
                 obj.Id = id;
+                obj.UpdatedAt = DateTime.UtcNow;    
                 _unitOfWork.Products.Update(id, obj);
                 var result = await _unitOfWork.SaveChangesAsync();
                 return result > 0;
