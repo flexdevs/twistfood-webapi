@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +71,11 @@ namespace TwistFood.DataAccess.Repositories
         public async Task<int> SaveChangesAsync()
         {
             return await dbContext.SaveChangesAsync();
+        }
+
+        public EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class
+        {
+            return dbContext.Entry(entity);
         }
     }
 }
