@@ -82,15 +82,77 @@ namespace TwistFood.Service.Services.Products
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
 
-        public async Task<bool> UpdateAsync(long id, Product obj)
+        public async Task<bool> UpdateAsync(long id, UpdateProductDto updateProductDto)
         {
             var res = await _unitOfWork.Products.FindByIdAsync(id);
             if (res is not null)
             {
                 _unitOfWork.Entry(res).State = EntityState.Detached;
-                obj.Id = id;
-                obj.UpdatedAt = DateTime.UtcNow;    
-                _unitOfWork.Products.Update(id, obj);
+                Product product = (Product)updateProductDto;
+
+                product.Id = id;
+                product.CreatedAt = res.CreatedAt;
+
+                if (updateProductDto.CategoryId is not null)
+                {
+                    var category = await _unitOfWork.Categories.FindByIdAsync((long)updateProductDto.CategoryId);
+                    if (category is null)
+                    {
+                        throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found");
+                    }
+                    product.CategoryId = (long)updateProductDto.CategoryId;
+                }
+                else
+                {
+                    product.CategoryId = res.CategoryId;
+                }
+
+                if (updateProductDto.ProductName is not null)
+                {
+                    product.ProductName = updateProductDto.ProductName;
+                }
+                else
+                {
+                    product.ProductName = res.ProductName;
+                }
+
+                if (updateProductDto.ProductDescription is not null)
+                {
+                    product.ProductDescription = updateProductDto.ProductDescription;
+                }
+                else
+                {
+                    product.ProductDescription = res.ProductDescription;
+                }
+
+                if (updateProductDto.ProductDescription is not null)
+                {
+                    product.ProductDescription = updateProductDto.ProductDescription;
+                }
+                else
+                {
+                    product.ProductDescription = res.ProductDescription;
+                }
+
+                if (updateProductDto.Price is not null)
+                {
+                    product.Price = (long)updateProductDto.Price;
+                }
+                else
+                {
+                    product.Price = res.Price;
+                }
+
+                if (updateProductDto.Image is not null)
+                {
+                    product.ImagePath = await _fileService.SaveImageAsync(updateProductDto.Image);
+                }
+                else
+                {
+                    product.ImagePath = res.ImagePath;
+                }
+                
+                _unitOfWork.Products.Update(id, product);
                 var result = await _unitOfWork.SaveChangesAsync();
                 return result > 0;
             }

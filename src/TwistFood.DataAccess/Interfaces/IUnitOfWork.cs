@@ -1,12 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TwistFood.Api.DbContexts;
 using TwistFood.DataAccess.Interfaces.Categories;
 using TwistFood.DataAccess.Interfaces.Discounts;
 using TwistFood.DataAccess.Interfaces.Employees;
@@ -15,6 +12,7 @@ using TwistFood.DataAccess.Interfaces.Orders;
 using TwistFood.DataAccess.Interfaces.Phones;
 using TwistFood.DataAccess.Interfaces.Products;
 using TwistFood.DataAccess.Interfaces.Users;
+using TwistFood.Domain.Entities.Products;
 
 namespace TwistFood.DataAccess.Interfaces
 {
@@ -32,7 +30,7 @@ namespace TwistFood.DataAccess.Interfaces
         public IProductRepository Products { get; }
         public IUserRepository Users { get; }
 
-        public Task<int> SaveChangesAsync();
         public EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        public Task<int> SaveChangesAsync();
     }
 }

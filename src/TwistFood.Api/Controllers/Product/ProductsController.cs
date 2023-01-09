@@ -31,8 +31,8 @@ namespace TwistFood.Api.Controllers.Product
         public async Task<IActionResult> CreateAsync([FromForm] CreateProductsDto dto)
             => Ok(await _productService.CreateProductAsync(dto));
 
-        [HttpPut("create")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromForm] CreateProductsDto dto)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateAsync(long id, [FromForm] UpdateProductDto dto)
             => Ok(await _productService.UpdateAsync(id, dto));
     }
 }
