@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using TwistFood.DataAccess.Interfaces;
@@ -47,6 +49,51 @@ namespace TwistFood.Service.Services.Products
             await _unitOfWork.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<bool> DeleteAsync(long id)
+        {
+            var res = await _unitOfWork.Products.FindByIdAsync(id);
+            if (res is not null)
+            {
+                _unitOfWork.Products.Delete(id);
+                var result = await _unitOfWork.SaveChangesAsync();
+
+                return result > 0;
+            }
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
+        }
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            var query = _unitOfWork.Products.GetAll();
+
+            return await query.OrderBy(x => x.Id).ThenByDescending(x => x.Price)
+                .AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Product> GetAsync(long id)
+        {
+            var res = await _unitOfWork.Products.FindByIdAsync(id);
+            if (res is not null)
+            {
+                return res;
+            }
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
+        }
+
+        public async Task<bool> UpdateAsync(long id, Product obj)
+        {
+            var res = await _unitOfWork.Products.FindByIdAsync(id);
+            if (res is not null)
+            {
+                _unitOfWork.Entry(res).State = EntityState.Detached;
+                obj.Id = id;
+                _unitOfWork.Products.Update(id, obj);
+                var result = await _unitOfWork.SaveChangesAsync();
+                return result > 0;
+            }
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
     }
 }

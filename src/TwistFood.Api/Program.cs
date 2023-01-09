@@ -5,6 +5,7 @@ using TwistFood.Api.Middlewares;
 using TwistFood.DataAccess.Common.Interfaces;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.DataAccess.Repositories;
+using TwistFood.Domain.Entities.Products;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
 using TwistFood.Service.Interfaces.Categories;
