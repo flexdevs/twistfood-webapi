@@ -31,8 +31,8 @@ namespace TwistFood.Service.Dtos
             {
                 DiscountName = discountDto.DiscountName,
                 Description = discountDto.Description,
-                StartTime = discountDto.StartTime,
-                EndTime = discountDto.EndTime,
+                StartTime = discountDto.StartTime.ToUniversalTime(),
+                EndTime = discountDto.EndTime.ToUniversalTime() ,
                 Price = discountDto.Price
             };
             

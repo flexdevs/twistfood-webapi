@@ -14,6 +14,7 @@ namespace TwistFood.Api.DbContexts
 {
     public class AppDbContext : DbContext
     {
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
         {
@@ -31,10 +32,9 @@ namespace TwistFood.Api.DbContexts
         public virtual DbSet<Discount> Discounts { get; set; } = default!;
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new SuperAdminConfiguration());
+            base.OnConfiguring(optionsBuilder); 
         }
     }
 }
