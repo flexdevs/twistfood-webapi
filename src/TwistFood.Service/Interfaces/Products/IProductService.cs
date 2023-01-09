@@ -19,6 +19,6 @@ namespace TwistFood.Service.Interfaces.Products
 
         public Task<bool> DeleteAsync(long id);
 
-        public Task<bool> UpdateAsync(long id, Product obj);
+        public Task<bool> UpdateAsync(long id, UpdateProductDto updateProductDto);
     }
 }

@@ -12,12 +12,16 @@ namespace TwistFood.Service.Attributes
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var price = (double)value!;
-
-            if (price < 0)
+            if (value is not null)
+            {
+               var  price = (double)value;  
+                if (price > 0)
+                    return ValidationResult.Success;
                 return new ValidationResult($"Amount of money is a positive number!");
-
+            }
             return ValidationResult.Success;
+
+            
         }
     }
 }
