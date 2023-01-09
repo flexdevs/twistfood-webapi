@@ -12,7 +12,7 @@ using TwistFood.Api.DbContexts;
 namespace TwistFood.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230107161529_InitialMigration")]
+    [Migration("20230108202311_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -276,13 +276,13 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<double>("DeleviryPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<long>("DeliverId")
+                    b.Property<long?>("DeliverId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DeliveredAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("DiscountId")
+                    b.Property<long?>("DiscountId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ILocationId")
@@ -291,7 +291,7 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<bool>("IsDiscount")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("OperatorId")
+                    b.Property<long?>("OperatorId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("PaymentType")
@@ -458,15 +458,11 @@ namespace TwistFood.DataAccess.Migrations
                 {
                     b.HasOne("TwistFood.Domain.Entities.Employees.Deliver", "Deliver")
                         .WithMany()
-                        .HasForeignKey("DeliverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliverId");
 
                     b.HasOne("TwistFood.Domain.Entities.Discounts.Discount", "Discount")
                         .WithMany()
-                        .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DiscountId");
 
                     b.HasOne("TwistFood.Domain.Common.Location", "ILocation")
                         .WithMany()
@@ -476,9 +472,7 @@ namespace TwistFood.DataAccess.Migrations
 
                     b.HasOne("TwistFood.Domain.Entities.Employees.Operator", "Operator")
                         .WithMany()
-                        .HasForeignKey("OperatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OperatorId");
 
                     b.HasOne("TwistFood.Domain.Entities.Users.User", "User")
                         .WithMany()

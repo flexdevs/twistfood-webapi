@@ -177,15 +177,15 @@ namespace TwistFood.DataAccess.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
-                    DeliverId = table.Column<long>(type: "bigint", nullable: false),
+                    DeliverId = table.Column<long>(type: "bigint", nullable: true),
                     ILocationId = table.Column<long>(type: "bigint", nullable: false),
                     TotalSum = table.Column<double>(type: "double precision", nullable: false),
                     PaymentType = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     DeleviryPrice = table.Column<double>(type: "double precision", nullable: false),
                     IsDiscount = table.Column<bool>(type: "boolean", nullable: false),
-                    DiscountId = table.Column<long>(type: "bigint", nullable: false),
-                    OperatorId = table.Column<long>(type: "bigint", nullable: false),
+                    DiscountId = table.Column<long>(type: "bigint", nullable: true),
+                    OperatorId = table.Column<long>(type: "bigint", nullable: true),
                     DeliveredAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -197,14 +197,12 @@ namespace TwistFood.DataAccess.Migrations
                         name: "FK_Orders_Delivers_DeliverId",
                         column: x => x.DeliverId,
                         principalTable: "Delivers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Discounts_DiscountId",
                         column: x => x.DiscountId,
                         principalTable: "Discounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Locations_ILocationId",
                         column: x => x.ILocationId,
@@ -215,8 +213,7 @@ namespace TwistFood.DataAccess.Migrations
                         name: "FK_Orders_Operators_OperatorId",
                         column: x => x.OperatorId,
                         principalTable: "Operators",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
