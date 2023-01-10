@@ -18,8 +18,6 @@ namespace TwistFood.Service.Dtos.Orders
         public long UserId { get; set; }
         [Required]
         public Location Ilocation { get; set; }
-        [Required, Integer]
-        public double TotalSum { get; set; }
         public PaymentType paymentType { get; set; } = PaymentType.Cash;
         public OrderStatus orderStatus { get; set; } = OrderStatus.InQueue;
         [Required, Integer]
@@ -39,7 +37,7 @@ namespace TwistFood.Service.Dtos.Orders
                 IsDiscount = dto.IsDiscount,
                 PaymentType = dto.paymentType,
                 Status = dto.orderStatus,
-                TotalSum = dto.TotalSum
+                TotalSum = 0
 
             };
         }

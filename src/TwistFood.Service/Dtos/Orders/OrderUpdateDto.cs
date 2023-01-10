@@ -10,8 +10,9 @@ namespace TwistFood.Service.Dtos.Orders
     public class OrderUpdateDto 
     {
         public long OrderId { get; set; }
-        public long DeliverId { get; set; }   
-        public long OperatorId { get; set; }    
+        public long? DeliverId { get; set; }   
+        public long? OperatorId { get; set; }    
+        public double? TotalSum { get; set; }  
         public DateTime? DeliveredAt { get; set; }
 
         
