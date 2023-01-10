@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
+using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Operators;
 using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces.Products;
@@ -20,12 +22,16 @@ namespace TwistFood.Api.Controllers.Product
         }
 
         [HttpGet, AllowAnonymous]
-        public async Task<IActionResult> GetAllAsync()
-        => Ok(await _productService.GetAllAsync());
+        public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
+        => Ok(await _productService.GetAllAsync(new PagenationParams(page)));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _productService.GetAsync(id));
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteByIdAsync(long id)
+            => Ok(await _productService.DeleteAsync(id));
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateProductsDto dto)

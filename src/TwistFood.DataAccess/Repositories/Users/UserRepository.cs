@@ -8,8 +8,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TwistFood.Api.DbContexts;
-using TwistFood.DataAccess.Common.Interfaces;
-using TwistFood.DataAccess.Common.Utils;
 using TwistFood.DataAccess.Interfaces.Categories;
 using TwistFood.DataAccess.Interfaces.Users;
 using TwistFood.Domain.Entities.Categories;

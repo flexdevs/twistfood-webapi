@@ -6,8 +6,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using TwistFood.Api.DbContexts;
-using TwistFood.DataAccess.Common.Interfaces;
-using TwistFood.DataAccess.Common.Utils;
 using TwistFood.DataAccess.Interfaces.Categories;
 using TwistFood.DataAccess.Interfaces.Phones;
 using TwistFood.Domain.Entities.Categories;

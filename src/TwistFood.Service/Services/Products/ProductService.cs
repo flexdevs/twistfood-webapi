@@ -10,10 +10,13 @@ using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Entities.Employees;
 using TwistFood.Domain.Entities.Products;
 using TwistFood.Domain.Exceptions;
+using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces;
+using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Products;
+using TwistFood.Service.Services.Common;
 
 namespace TwistFood.Service.Services.Products
 {
@@ -21,11 +24,15 @@ namespace TwistFood.Service.Services.Products
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
+        private readonly IPaginatorService _paginatorService;
 
-        public ProductService(IUnitOfWork unitOfWork, IFileService fileService)
+        public ProductService(IUnitOfWork unitOfWork, 
+                              IFileService fileService,
+                              IPaginatorService paginatorService)
         {
             _unitOfWork = unitOfWork;
             _fileService = fileService;
+            _paginatorService = paginatorService;
         }
         public async Task<bool> CreateProductAsync(CreateProductsDto createProductsDto)
         {
@@ -64,12 +71,13 @@ namespace TwistFood.Service.Services.Products
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync(PagenationParams @params)
         {
-            var query = _unitOfWork.Products.GetAll();
+            var query = _unitOfWork.Products.GetAll()
+            .OrderBy(x => x.Id).ThenByDescending(x => x.Price);
 
-            return await query.OrderBy(x => x.Id).ThenByDescending(x => x.Price)
-                .AsNoTracking().ToListAsync();
+            return await _paginatorService.ToPageAsync(query,
+                @params.PageNumber, @params.PageSize);
         }
 
         public async Task<Product> GetAsync(long id)
