@@ -33,7 +33,8 @@ namespace TwistFood.Service.Dtos
                 Description = discountDto.Description,
                 StartTime = discountDto.StartTime.ToUniversalTime(),
                 EndTime = discountDto.EndTime.ToUniversalTime() ,
-                Price = discountDto.Price
+                Price = discountDto.Price,
+                CreatedAt = DateTime.UtcNow
             };
             
         }
