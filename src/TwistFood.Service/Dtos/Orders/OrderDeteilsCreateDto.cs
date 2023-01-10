@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TwistFood.Domain.Entities.Order;
 
 namespace TwistFood.Service.Dtos.Orders
 {
-    internal class OrderDeteilsCreateDto
+    public class OrderDeteilsCreateDto
     {
+        [Required]
+        public long ProductId { get; set; }
+        [Required]
+        public int Amount { get; set; }
+       
+       
     }
 }
