@@ -1,4 +1,4 @@
-using CarShop.Api.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using TwistFood.Api.DbContexts;
 using TwistFood.Api.Middlewares;
@@ -7,6 +7,7 @@ using TwistFood.DataAccess.Repositories;
 using TwistFood.Domain.Entities.Products;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
+using TwistFood.Service.Interfaces.Admins;
 using TwistFood.Service.Interfaces.Categories;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Delivers;
@@ -17,6 +18,7 @@ using TwistFood.Service.Interfaces.Products;
 using TwistFood.Service.Security;
 using TwistFood.Service.Services;
 using TwistFood.Service.Services.Accounts;
+using TwistFood.Service.Services.Admins;
 using TwistFood.Service.Services.Categories;
 using TwistFood.Service.Services.Common;
 using TwistFood.Service.Services.Delivers;
@@ -51,16 +53,21 @@ builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+
 
 
 
 var app = builder.Build();
 
+app.Urls.Add("http://185.217.131.186:5055");
+app.Urls.Add("http://localhost:5055");
+
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

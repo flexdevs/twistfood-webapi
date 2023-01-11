@@ -23,11 +23,11 @@ namespace TwistFood.Api.Controllers.Users
 
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] AccountRegisterDto dto)
+        public async Task<IActionResult> RegisterAsync([FromForm] AccountRegisterDto dto)
             => Ok(await _accountService.AccountRegisterAsync(dto));
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] AccountLoginDto dto)
+        public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto dto)
             => Ok(new { Token = await _accountService.AccountLoginAsync(dto) });
 
         [HttpGet("send-to-phone-number")]
