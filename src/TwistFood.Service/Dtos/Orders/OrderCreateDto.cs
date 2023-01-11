@@ -16,10 +16,10 @@ namespace TwistFood.Service.Dtos.Orders
     {
         [Required]
         public long UserId { get; set; }
-        [Required]
-        public Location Ilocation { get; set; }
-        public PaymentType paymentType { get; set; } = PaymentType.Cash;
-        public OrderStatus orderStatus { get; set; } = OrderStatus.InQueue;
+        [Required,Integer]
+        public double Latitude { get; set; }
+        [Required, Integer]
+        public double Longitude { get; set; }   
         [Required, Integer]
         public double DeliverPrice { get; set; }
         [Required]
@@ -35,8 +35,8 @@ namespace TwistFood.Service.Dtos.Orders
                 UpdatedAt= DateTime.UtcNow, 
                 DeleviryPrice = dto.DeliverPrice,
                 IsDiscount = dto.IsDiscount,
-                PaymentType = dto.paymentType,
-                Status = dto.orderStatus,
+                PaymentType = PaymentType.Cash,
+                Status = OrderStatus.InQueue,
                 TotalSum = 0
 
             };

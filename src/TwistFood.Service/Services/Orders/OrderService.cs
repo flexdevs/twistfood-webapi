@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using TwistFood.DataAccess.Interfaces;
+using TwistFood.Domain.Common;
 using TwistFood.Domain.Entities.Order;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Dtos.Orders;
@@ -25,10 +26,10 @@ namespace TwistFood.Service.Services.Orders
         {
             var user = await _unitOfWork.Users.FindByIdAsync(dto.UserId);
             if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
-
-            _unitOfWork.Locations.Add(dto.Ilocation);
+            Location location = new Location() { Latitude = dto.Latitude, Longitude = dto.Longitude }; 
+            _unitOfWork.Locations.Add(location);
             await _unitOfWork.SaveChangesAsync();
-            var Ilocation = await _unitOfWork.Locations.FirstOrDefaultAsync(x => x.Latitude == dto.Ilocation.Latitude && x.Longitude == dto.Ilocation.Longitude);
+            var Ilocation = await _unitOfWork.Locations.FirstOrDefaultAsync(x => x.Latitude == location.Latitude && x.Longitude == location.Longitude);
             if (Ilocation == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Location not found"); }
 
             var order = (Order)dto;

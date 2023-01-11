@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TwistFood.Domain.Entities.Order;
+using TwistFood.Service.Attributes;
 
 namespace TwistFood.Service.Dtos.Orders
 {
@@ -14,6 +15,9 @@ namespace TwistFood.Service.Dtos.Orders
         public long ProductId { get; set; }
         [Required]
         public int Amount { get; set; }
+        [Required,Integer]
+        public double Price { get; set; }   
+
        
        
     }

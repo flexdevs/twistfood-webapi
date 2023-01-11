@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -25,72 +26,64 @@ namespace TwistFood.Service.Services.Orders
             this._orderService = orderService;
         }
 
-        public async Task<bool> OrderCreateAsync(OrderCreateDto orderCreateDto, List<OrderDeteilsCreateDto> orderDeteilsDto)
+        public async Task<bool> OrderCreateAsync(long OrderId,OrderDeteilsCreateDto orderDeteilsDto)
         {
-           var order =  await _orderService.OrderCreateAsync(orderCreateDto);
-            foreach (var item in orderDeteilsDto)
-            {
-                var product = await _unitOfWork.Products.FindByIdAsync(item.ProductId);
-                if (product == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found"); }
-                OrderDetail orderDetail = new OrderDetail()
-                {
-                    ProductId = item.ProductId,
-                    Amount = item.Amount,
-                    OrderId = order.Id
-                    
-                };
-                orderDetail.Price = product.Price*item.Amount;
-                order.TotalSum += orderDetail.Price;
-                _unitOfWork.OrderDetails.Add(orderDetail);  
-            }
-            OrderUpdateDto orderUpdateDto = new OrderUpdateDto() {OrderId = order.Id ,TotalSum = order.TotalSum };
-            
-            await _orderService.OrderUpdateAsync(orderUpdateDto); 
+            var order = await _unitOfWork.Orders.FindByIdAsync(OrderId);  
+            if (order is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
 
-           await  _unitOfWork.SaveChangesAsync();
-            return true;    
+            OrderDetail orderdetail = new OrderDetail() {OrderId = order.Id };
+
+            var product = await _unitOfWork.Products.FindByIdAsync(orderDeteilsDto.ProductId);  
+            if (product == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found"); }
+
+            orderdetail.ProductId = OrderId;
+            orderdetail.Amount = orderDeteilsDto.Amount;
+            orderdetail.Price= orderDeteilsDto.Price;   
+            
+
+            _unitOfWork.OrderDetails.Add(orderdetail);  
+            await _unitOfWork.SaveChangesAsync();   
+            return true;
+
         }
 
-        public async Task<bool> OrderUpdateAsync(long orderId,List<OrderDetailUpdateDto> dto)
+        public async Task<bool> OrderUpdateAsync(OrderDetailUpdateDto dto)
         {
+            var orderDetail = await _unitOfWork.OrderDetails.FindByIdAsync(dto.OrderDetailId);
+            if (orderDetail == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order detail not found"); }
 
-            var order = _unitOfWork.Orders.FindByIdAsync(orderId);
+            _unitOfWork.Entry(orderDetail).State = EntityState.Detached;
+
+            var order = await _unitOfWork.Orders.FindByIdAsync(orderDetail.OrderId);
             if (order == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
 
-            foreach (var item in dto)
+            _unitOfWork.Entry(order).State = EntityState.Detached;
+           
+                
+            if (dto.ProductId is not null)
             {
-                OrderDetail orderDetail = new OrderDetail();
-                if (item.OrderDetailId is not null)
-                {
-                    var orderdetail = await _unitOfWork.OrderDetails.FindByIdAsync((long)item.OrderDetailId);
-                    if (orderdetail == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "order detail not found"); }
-                    orderDetail = orderdetail;
-                }
-                
-                if (item.ProductId is not null)
-                {
-                    var product = _unitOfWork.Products.FindByIdAsync((long)item.ProductId);
-                    if (product == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found"); }
-                    orderDetail.ProductId = product.Id; 
-                }
-
-                if (item.Amount is not null)
-                {
-                    orderDetail.Amount = (int)item.Amount;
-                }
-
-                if (item.OrderDetailId is null)
-                {
-                    orderDetail.OrderId = orderId;
-                    // yangi  yaratish kerak
-                    _unitOfWork.OrderDetails.Add(orderDetail);
-                }
-                else
-                {
-                    _unitOfWork.OrderDetails.Update(orderId, orderDetail);
-                }
-                
+                var product = _unitOfWork.Products.FindByIdAsync((long)dto.ProductId);
+                if (product == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found"); }
+                orderDetail.ProductId = product.Id; 
             }
+
+            if (dto.Amount is not null )
+            {
+                orderDetail.Amount = (int)dto.Amount;
+            }
+            if(dto.Price is not null)
+            {
+                orderDetail.Price = (double)dto.Price; 
+            }
+
+           await  _orderService.OrderUpdateAsync(new OrderUpdateDto() 
+           { OrderId = order.Id, 
+             TotalSum = order.TotalSum + orderDetail.Price });  
+                
+            _unitOfWork.OrderDetails.Update(orderDetail.Id, orderDetail);
+                
+                
+            
            await _unitOfWork.SaveChangesAsync();
             return true;
         }
