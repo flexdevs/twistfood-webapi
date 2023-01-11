@@ -1,21 +1,36 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TwistFood.Service.Dtos.AccountAdmin;
 using TwistFood.Service.Dtos.Accounts;
+using TwistFood.Service.Dtos.Operators;
 using TwistFood.Service.Interfaces.Accounts;
+using TwistFood.Service.Interfaces.Admins;
+using TwistFood.Service.Services.Admins;
 
 namespace TwistFood.Api.Controllers.Admins
 {
     [Route("api/admins")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly IVerifyEmailService _emailService;
+        private readonly IAdminService _adminService;
 
-        public AccountsController(IAccountService accountService, IVerifyEmailService emailService)
+        public AdminController(IVerifyEmailService emailService,
+                                  IAdminService adminService)
         {
             _emailService = emailService;
+            _adminService = adminService;
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterAsync([FromForm] AdminRegisterDto dto)
+            => Ok(await _adminService.AdminRegisterAsync(dto));
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromForm] AdminLoginDto dto)
+            => Ok(new { Token = await _adminService.AdminLoginAsync(dto) });
 
         [HttpPost("verify-email"), AllowAnonymous]
         public async Task<IActionResult> VerifyEmail([FromForm] EmailVerifyDto email)
