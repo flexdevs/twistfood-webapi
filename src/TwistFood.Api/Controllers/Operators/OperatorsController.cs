@@ -19,11 +19,11 @@ namespace TwistFood.Api.Controllers.Operators
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] OperatorRegisterDto dto)
+        public async Task<IActionResult> RegisterAsync([FromForm] OperatorRegisterDto dto)
             => Ok(await _operatorService.OperatorRegisterAsync(dto));
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] OperatorLoginDto dto)
+        public async Task<IActionResult> LoginAsync([FromForm] OperatorLoginDto dto)
             => Ok(new { Token = await _operatorService.OperatorLoginAsync(dto) });
     }
 }

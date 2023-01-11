@@ -18,21 +18,21 @@ namespace TwistFood.Api.Controllers.Admins
         }
 
         [HttpPost("verify-email"), AllowAnonymous]
-        public async Task<IActionResult> VerifyEmail([FromBody] EmailVerifyDto email)
+        public async Task<IActionResult> VerifyEmail([FromForm] EmailVerifyDto email)
         {
             await _emailService.VerifyEmail(email);
             return Ok();
         }
 
         [HttpPost("send-code-to-email"), AllowAnonymous]
-        public async Task<IActionResult> SendToEmail([FromBody] SendCodeToEmailDto email)
+        public async Task<IActionResult> SendToEmail([FromForm] SendCodeToEmailDto email)
         {
             await _emailService.SendCodeAsync(email);
             return Ok();
         }
 
         [HttpPost("reset-password"), AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromBody] ResetPasswordDto forgotPassword)
+        public async Task<IActionResult> ForgotPassword([FromForm] ResetPasswordDto forgotPassword)
         {
             await _emailService.VerifyPasswordAsync(forgotPassword);
             return Ok();
