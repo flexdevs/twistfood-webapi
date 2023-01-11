@@ -12,6 +12,7 @@ using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Delivers;
 using TwistFood.Service.Interfaces.Discounts;
 using TwistFood.Service.Interfaces.Operators;
+using TwistFood.Service.Interfaces.Orders;
 using TwistFood.Service.Interfaces.Products;
 using TwistFood.Service.Security;
 using TwistFood.Service.Services;
@@ -21,6 +22,7 @@ using TwistFood.Service.Services.Common;
 using TwistFood.Service.Services.Delivers;
 using TwistFood.Service.Services.Discounts;
 using TwistFood.Service.Services.Operators;
+using TwistFood.Service.Services.Orders;
 using TwistFood.Service.Services.Products;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +49,8 @@ builder.Services.AddScoped<IOperatorService, OperatorService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
 
 
 
