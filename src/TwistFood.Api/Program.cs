@@ -52,11 +52,14 @@ builder.Services.AddScoped<IDiscountService, DiscountService>();
 
 var app = builder.Build();
 
+app.Urls.Add("https://185.217.131.186:5055");
+app.Urls.Add("http://localhost:5055");
+
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
