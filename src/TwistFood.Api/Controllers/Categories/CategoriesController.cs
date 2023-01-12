@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
@@ -18,19 +19,19 @@ namespace TwistFood.Api.Controllers.Categories
             this._categoryService = categoryService;
         }
 
-        [HttpPost("add-category")]
+        [HttpPost("add-category"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> RegisterAsync([FromForm] CategoryDto dto)
             => Ok(await _categoryService.CreateCategoryAsync(dto));
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
         => Ok(await _categoryService.GetAllAsync(new PagenationParams(page)));
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _categoryService.GetAsync(id));
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await _categoryService.DeleteAsync(id));
     }

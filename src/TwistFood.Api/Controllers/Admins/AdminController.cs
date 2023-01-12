@@ -24,11 +24,11 @@ namespace TwistFood.Api.Controllers.Admins
             _adminService = adminService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("register"), Authorize(Roles = "head")]
         public async Task<IActionResult> RegisterAsync([FromForm] AdminRegisterDto dto)
             => Ok(await _adminService.AdminRegisterAsync(dto));
 
-        [HttpPost("login")]
+        [HttpPost("login"), AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromForm] AdminLoginDto dto)
             => Ok(new { Token = await _adminService.AdminLoginAsync(dto) });
 

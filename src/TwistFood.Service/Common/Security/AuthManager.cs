@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using TwistFood.Domain.Entities.Employees;
@@ -44,8 +45,8 @@ public class AuthManager : IAuthManager
         {
             new Claim("Id", admin.Id.ToString()),
             new Claim("FullName", admin.FirstName + " " + admin.LastName),
-            new Claim("Email", admin.Email),
-            new Claim("PhoneNumber",admin.PhoneNumber)
+            new Claim(ClaimTypes.Email, admin.Email),
+            new Claim(ClaimTypes.Role, (admin.IsHead == true) ? "head" : "nohead")
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretKey"]));

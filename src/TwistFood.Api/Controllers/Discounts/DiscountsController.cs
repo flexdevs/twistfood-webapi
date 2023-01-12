@@ -29,15 +29,15 @@ namespace TwistFood.Api.Controllers.Discounts
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _discountService.GetAsync(id));
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> DeleteByIdAsync(long id)
             => Ok(await _discountService.DeleteAsync(id));
 
-        [HttpPost("create")]
+        [HttpPost("create"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> CreateAsync([FromForm] DiscountCreateDto dto)
             => Ok(await _discountService.CreateDiscountAsync(dto));
 
-        [HttpPut("update")]
+        [HttpPut("update"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] DiscountUpdateDto dto)
             => Ok(await _discountService.UpdateAsync(id, dto));
     }

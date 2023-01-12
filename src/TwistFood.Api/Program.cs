@@ -1,4 +1,5 @@
 
+using TwistFood.Api.Configurations;
 using Microsoft.EntityFrameworkCore;
 using TwistFood.Api.DbContexts;
 using TwistFood.Api.Middlewares;
@@ -35,6 +36,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMemoryCache();
 
+builder.ConfigureAuth();
+builder.Services.ConfigureSwaggerAuthorize();
+
 string connectionString = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
@@ -66,8 +70,8 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 
 var app = builder.Build();
 
-app.Urls.Add("http://185.217.131.186:5055");
-app.Urls.Add("http://localhost:5055");
+/*app.Urls.Add("http://185.217.131.186:5055");
+app.Urls.Add("http://localhost:5055");*/
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseStaticFiles();
@@ -82,7 +86,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 app.UseCors("corspolicy");
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

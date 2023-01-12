@@ -25,19 +25,19 @@ namespace TwistFood.Api.Controllers.Product
         public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
         => Ok(await _productService.GetAllAsync(new PagenationParams(page)));
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), AllowAnonymous]
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _productService.GetAsync(id));
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> DeleteByIdAsync(long id)
             => Ok(await _productService.DeleteAsync(id));
 
-        [HttpPost("create")]
+        [HttpPost("create"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateProductsDto dto)
             => Ok(await _productService.CreateProductAsync(dto));
 
-        [HttpPut("update")]
+        [HttpPut("update"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] UpdateProductDto dto)
             => Ok(await _productService.UpdateAsync(id, dto));
     }
