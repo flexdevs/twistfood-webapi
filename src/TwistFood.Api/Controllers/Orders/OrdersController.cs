@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Operators;
@@ -17,11 +18,11 @@ namespace TwistFood.Api.Controllers.Orders
             this._orderService = orderService;
         }
 
-        [HttpPost("Create")]
+        [HttpPost("Create"), AllowAnonymous]
         public async Task<IActionResult> OrderCreateAsync([FromForm] OrderCreateDto dto)
             => Ok(await _orderService.OrderCreateAsync(dto));
 
-        [HttpPut("Update")]
+        [HttpPut("Update"), AllowAnonymous]
         public async Task<IActionResult> OrderUpdateAsync([FromForm] OrderUpdateDto dto)
             => Ok(await _orderService.OrderUpdateAsync(dto));
     }

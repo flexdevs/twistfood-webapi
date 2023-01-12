@@ -4,6 +4,7 @@ using TwistFood.Service.Dtos.Account;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Interfaces.Operators;
 using TwistFood.Service.Dtos.Operators;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TwistFood.Api.Controllers.Operators
 {
@@ -18,11 +19,11 @@ namespace TwistFood.Api.Controllers.Operators
             this._operatorService = operatorService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("register"), Authorize(Roles = "head")]
         public async Task<IActionResult> RegisterAsync([FromForm] OperatorRegisterDto dto)
             => Ok(await _operatorService.OperatorRegisterAsync(dto));
 
-        [HttpPost("login")]
+        [HttpPost("login"), AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromForm] OperatorLoginDto dto)
             => Ok(new { Token = await _operatorService.OperatorLoginAsync(dto) });
     }

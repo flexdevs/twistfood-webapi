@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace CarShop.Api.Common.Configurations;
+namespace TwistFood.Api.Configurations;
 public static class JwtConfiguration
 {
     public static void ConfigureAuth(this WebApplicationBuilder builder)
