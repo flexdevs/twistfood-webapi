@@ -29,6 +29,10 @@ namespace TwistFood.Api.Controllers.Product
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _productService.GetAsync(id));
 
+        [HttpGet("search/{name}"), AllowAnonymous]
+        public async Task<IActionResult> SearchByNameAsync(string name)
+            => Ok(await _productService.SearchByNameAsync(name));
+
         [HttpDelete("{id}"), Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> DeleteByIdAsync(long id)
             => Ok(await _productService.DeleteAsync(id));

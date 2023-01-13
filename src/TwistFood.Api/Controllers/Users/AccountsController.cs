@@ -13,10 +13,10 @@ namespace TwistFood.Api.Controllers.Users
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        private readonly ISendToPhoneNumberService _sendToPhoneNumberService;
+        private readonly IVerifyPhoneNumberService _sendToPhoneNumberService;
 
         public AccountsController(IAccountService accountService, 
-            ISendToPhoneNumberService sendToPhoneNumberService)
+            IVerifyPhoneNumberService sendToPhoneNumberService)
         {
             this._accountService = accountService;
             this._sendToPhoneNumberService = sendToPhoneNumberService;
@@ -34,5 +34,9 @@ namespace TwistFood.Api.Controllers.Users
         [HttpGet("send-to-phone-number")]
         public async Task<IActionResult> SendCodeAsync([FromQuery] SendToPhoneNumberDto dto)
             => Ok(await _sendToPhoneNumberService.SendCodeAsync(dto));
+
+        [HttpGet("verify-phone-number")]
+        public async Task<IActionResult> VerifyAsync([FromQuery] VerifyPhoneNumberDto dto)
+            => Ok(await _sendToPhoneNumberService.VerifyPhoneNumber(dto));
     }
 }
