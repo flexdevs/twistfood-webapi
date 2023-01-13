@@ -179,5 +179,33 @@ namespace TwistFood.Service.Services.Products
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
+
+        public async Task<IEnumerable<Product>> GetAllForSearchAsync(string categoryName, string searchName)
+        {
+            if (categoryName == "") 
+            {
+               var result =   _unitOfWork.Products.GetAll().
+                    AsNoTracking().
+                    Where(x => x.ProductName.ToLower().StartsWith(searchName.ToLower())).
+                    ToList();
+
+                if(result.Count > 0)    
+                        return result;
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
+            }
+            else
+            {
+                var category = await _unitOfWork.Categories.FirstOrDefaultAsync(x => x.CategoryName.ToLower().StartsWith(categoryName.ToLower()));
+                if(category == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found"); }
+                var result = _unitOfWork.Products.GetAll().
+                    AsNoTracking().
+                    Where(x => x.CategoryId == category.Id).
+                    ToList();
+
+                if (result.Count > 0) return result;
+
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
+            }
+        }
     }
 }
