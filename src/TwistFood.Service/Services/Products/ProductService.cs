@@ -73,11 +73,24 @@ namespace TwistFood.Service.Services.Products
 
         public async Task<IEnumerable<Product>> GetAllAsync(PagenationParams @params)
         {
-            var query = _unitOfWork.Products.GetAll()
+            var query = _unitOfWork.Products.GetAll()/*.Where(x => x.ProductName.ToLower().StartsWith("d"))*/
             .OrderBy(x => x.Id).ThenByDescending(x => x.Price);
 
             return await _paginatorService.ToPageAsync(query,
                 @params.PageNumber, @params.PageSize);
+        }
+
+        public async Task<IEnumerable<Product>> SearchByNameAsync(string name)
+        {
+            var query = _unitOfWork.Products.Where(x => x.ProductName.ToLower().StartsWith(name))
+                                            .OrderBy(x => x.Id).ThenByDescending(x => x.Price)
+                                            .ToListAsync();
+
+            if(query is not null)
+            {
+                return await query;
+            }
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
 
         public async Task<Product> GetAsync(long id)
