@@ -8,8 +8,10 @@ using TwistFood.Service.Dtos.Accounts;
 
 namespace TwistFood.Service.Interfaces.Accounts
 {
-    public interface ISendToPhoneNumberService
+    public interface IVerifyPhoneNumberService
     {
-        public Task<int> SendCodeAsync(SendToPhoneNumberDto sendToPhoneNumberDto);
+        public Task<bool> SendCodeAsync(SendToPhoneNumberDto sendToPhoneNumberDto);
+
+        public Task<bool> VerifyPhoneNumber(VerifyPhoneNumberDto verifyPhoneNumberDto);
     }
 }

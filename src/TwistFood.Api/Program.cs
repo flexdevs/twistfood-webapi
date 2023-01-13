@@ -52,7 +52,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IDeliverRegisterService, DeliverRegisterService>();
-builder.Services.AddScoped<ISendToPhoneNumberService, SendToPhoneNumberService>();
+builder.Services.AddScoped<IVerifyPhoneNumberService, VerifyPhoneNumberService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVerifyEmailService, VerifyEmailService>();
 builder.Services.AddScoped<IFileService, FileService>();

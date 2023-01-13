@@ -82,7 +82,7 @@ namespace TwistFood.Service.Services.Products
 
         public async Task<IEnumerable<Product>> SearchByNameAsync(string name)
         {
-            var query = _unitOfWork.Products.Where(x => x.ProductName.ToLower().StartsWith(name))
+            var query = _unitOfWork.Products.Where(x => x.ProductName.ToLower().StartsWith(name.ToLower()))
                                             .OrderBy(x => x.Id).ThenByDescending(x => x.Price)
                                             .ToListAsync();
 

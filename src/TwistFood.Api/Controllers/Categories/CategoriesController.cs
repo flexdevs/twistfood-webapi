@@ -23,7 +23,7 @@ namespace TwistFood.Api.Controllers.Categories
         public async Task<IActionResult> RegisterAsync([FromForm] CategoryDto dto)
             => Ok(await _categoryService.CreateCategoryAsync(dto));
 
-        [HttpGet, Authorize(Roles = "head, nohead")]
+        [HttpGet, AllowAnonymous]
         public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
         => Ok(await _categoryService.GetAllAsync(new PagenationParams(page)));
 
