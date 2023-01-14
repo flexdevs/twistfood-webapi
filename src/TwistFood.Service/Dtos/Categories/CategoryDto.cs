@@ -18,7 +18,6 @@ namespace TwistFood.Service.Dtos
             return new Category()
             {
                 CategoryName = category.CategoryName,
-                ProductCount = 0
 
             };
         }

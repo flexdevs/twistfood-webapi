@@ -53,9 +53,6 @@ namespace TwistFood.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ProductCount")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -229,6 +226,9 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsHead")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -274,13 +274,13 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<double>("DeleviryPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<long>("DeliverId")
+                    b.Property<long?>("DeliverId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DeliveredAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("DiscountId")
+                    b.Property<long?>("DiscountId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ILocationId")
@@ -289,7 +289,7 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<bool>("IsDiscount")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("OperatorId")
+                    b.Property<long?>("OperatorId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("PaymentType")
@@ -456,15 +456,11 @@ namespace TwistFood.DataAccess.Migrations
                 {
                     b.HasOne("TwistFood.Domain.Entities.Employees.Deliver", "Deliver")
                         .WithMany()
-                        .HasForeignKey("DeliverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliverId");
 
                     b.HasOne("TwistFood.Domain.Entities.Discounts.Discount", "Discount")
                         .WithMany()
-                        .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DiscountId");
 
                     b.HasOne("TwistFood.Domain.Common.Location", "ILocation")
                         .WithMany()
@@ -474,9 +470,7 @@ namespace TwistFood.DataAccess.Migrations
 
                     b.HasOne("TwistFood.Domain.Entities.Employees.Operator", "Operator")
                         .WithMany()
-                        .HasForeignKey("OperatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OperatorId");
 
                     b.HasOne("TwistFood.Domain.Entities.Users.User", "User")
                         .WithMany()
