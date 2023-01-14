@@ -31,33 +31,6 @@ namespace TwistFood.Service.Services.Accounts
         {
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountLoginDto.PhoneNumber);
             if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found, Phone Number is incorrect!"); }
-            if (accountLoginDto.TelegramId != null)
-            {
-                if (user.TelegramId != null && user.TelegramId != accountLoginDto.TelegramId)
-                {
-                    user.TelegramId = accountLoginDto.TelegramId;
-                }
-            }
-            if (accountLoginDto.PhoneId!= null) 
-            {
-                var phone = await _unitOfWork.Phones.FirstOrDefaultAsync(x => x.UserId == user.Id);
-                if (phone == null || phone.PhoneId != accountLoginDto.PhoneId) 
-                {
-                    Phone newPhone = new Phone()
-                    {
-                        PhoneId= accountLoginDto.PhoneId,   
-                        UserId= user.Id,
-                        CreatedAt= DateTime.UtcNow,
-                        UpdatedAt= DateTime.UtcNow,
-                        Status = "Active",
-                                             
-                    };
-                    _unitOfWork.Phones.Add(newPhone);
-
-                }
-                
-            }
-            await _unitOfWork.SaveChangesAsync();
 
             return _authManager.GenerateUserToken(user);
         }
