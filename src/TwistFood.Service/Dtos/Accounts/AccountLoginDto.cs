@@ -10,9 +10,9 @@ namespace TwistFood.Service.Dtos
 {
     public class AccountLoginDto
     {
-        public string? TelegramId { get; set; }
+        /*public string? TelegramId { get; set; }*/
         [Required,PhoneNumber]
         public string PhoneNumber { get; set; } = string.Empty;
-        public string? PhoneId { get; set; }
+        /*public string? PhoneId { get; set; }*/
     }
 }
