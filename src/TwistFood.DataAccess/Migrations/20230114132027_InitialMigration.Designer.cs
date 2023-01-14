@@ -12,7 +12,7 @@ using TwistFood.Api.DbContexts;
 namespace TwistFood.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230108202311_InitialMigration")]
+    [Migration("20230114132027_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,9 +54,6 @@ namespace TwistFood.DataAccess.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("ProductCount")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -230,6 +227,9 @@ namespace TwistFood.DataAccess.Migrations
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsHead")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
                         .IsRequired()

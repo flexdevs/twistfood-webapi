@@ -7,6 +7,7 @@ using TwistFood.Domain.Entities.Categories;
 using TwistFood.Domain.Entities.Products;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
+using TwistFood.Service.ViewModels.Categories;
 
 namespace TwistFood.Service.Interfaces.Categories
 {
@@ -16,7 +17,7 @@ namespace TwistFood.Service.Interfaces.Categories
 
         public Task<IEnumerable<Category>> GetAllAsync(PagenationParams @params);
 
-        public Task<Category> GetAsync(long id);
+        public Task<CategoryViewModels> GetAsync(long id);
 
         public Task<bool> DeleteAsync(long id);
     }

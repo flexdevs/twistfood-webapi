@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -8,20 +9,99 @@ using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Common;
 using TwistFood.Domain.Entities.Order;
 using TwistFood.Domain.Exceptions;
+using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
+using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Orders;
+using TwistFood.Service.ViewModels.Orders;
 
 namespace TwistFood.Service.Services.Orders
 {
     public class OrderService : IOrderService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaginatorService _paginatorService;
 
-        public OrderService(IUnitOfWork unitOfWork)
+        public OrderService(IUnitOfWork unitOfWork, IPaginatorService paginatorService)
         {
             _unitOfWork = unitOfWork;
+            this._paginatorService = paginatorService;  
 
         }
+
+        public async Task<IEnumerable<OrderViewModel>> GetAllAsync(PagenationParams @params)
+        {
+            var query = _unitOfWork.Orders.GetAll().AsNoTracking()
+          .OrderByDescending(x => x.Id);
+
+            var res = await _paginatorService.ToPageAsync(query,
+                @params.PageNumber, @params.PageSize);
+            if (res is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Orders not found"); }
+
+            List<OrderViewModel> result = new List<OrderViewModel>();   
+            foreach (var order in res)
+            {
+                OrderViewModel orderViewModel = new OrderViewModel()
+                {
+                    Id = order.Id,  
+                    CreatedAt= order.CreatedAt, 
+                    paymentType= order.PaymentType,
+                    Status= order.Status,   
+                    TotalSum= order.TotalSum, 
+                    UpdatedAt= order.UpdatedAt,
+                };
+                var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.Id == order.UserId);
+                
+                orderViewModel.UserPhoneNumber = user!.PhoneNumber;
+                string orderDetails = "";
+                await  _unitOfWork.OrderDetails.GetAll(order.Id).AsNoTracking()
+                        .ForEachAsync(async x => orderDetails+= (await _unitOfWork.Products.FindByIdAsync(x.ProductId))!.ProductName + ", ");
+                
+                orderViewModel.OrderDetails = orderDetails; 
+                result.Add(orderViewModel); 
+            }
+            return result;
+        }
+
+        public async Task<OrderWithOrderDetailsViewModel> GetOrderWithOrderDetailsAsync(long OrderId)
+        {
+          var order = await _unitOfWork.Orders.FindByIdAsync(OrderId);
+            if (order is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
+            OrderWithOrderDetailsViewModel orderDetailsViewModel = new OrderWithOrderDetailsViewModel()
+            {
+                Id = order.Id,
+                CreatedAt = order.CreatedAt,
+                paymentType = order.PaymentType,
+                Status = order.Status,
+                TotalSum = order.TotalSum,
+                UpdatedAt = order.UpdatedAt,
+            };
+            var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.Id == order.UserId);
+
+            orderDetailsViewModel.UserPhoneNumber = user!.PhoneNumber;
+
+            List<OrderDetailViewModel> list = new List<OrderDetailViewModel>();     
+            
+            var orderDetails =  _unitOfWork.OrderDetails.GetAll(OrderId).AsNoTracking().ToList();
+            foreach (var orderDetail in orderDetails)
+            {
+                OrderDetailViewModel detailsViewModel = new OrderDetailViewModel()
+                {
+                    Id = orderDetail.Id,
+                    Price = orderDetail.Price,
+                };
+                
+                detailsViewModel.ProductName = (await _unitOfWork.Products.FindByIdAsync(orderDetail.ProductId))!.ProductName;
+                
+                list.Add(detailsViewModel);
+            }
+            orderDetailsViewModel.OrderDetails = list;  
+
+            return orderDetailsViewModel;   
+
+
+        }
+
         public async Task<Order> OrderCreateAsync(OrderCreateDto dto)
         {
             var user = await _unitOfWork.Users.FindByIdAsync(dto.UserId);

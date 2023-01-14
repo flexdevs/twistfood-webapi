@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Operators;
 using TwistFood.Service.Interfaces.Orders;
@@ -25,5 +26,14 @@ namespace TwistFood.Api.Controllers.Orders
         [HttpPut("Update"), AllowAnonymous]
         public async Task<IActionResult> OrderUpdateAsync([FromForm] OrderUpdateDto dto)
             => Ok(await _orderService.OrderUpdateAsync(dto));
+
+        [HttpGet("GetAll"), AllowAnonymous]
+        public async Task<IActionResult> GetAllAsync(PagenationParams @params)
+            => Ok(await _orderService.GetAllAsync(@params));
+
+        [HttpGet("{Id}"), AllowAnonymous]
+
+        public async Task<IActionResult> GetByIdAsync(long OrderId)
+            => Ok(await _orderService.GetOrderWithOrderDetailsAsync(OrderId));
     }
 }

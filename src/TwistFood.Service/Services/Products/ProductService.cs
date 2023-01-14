@@ -73,7 +73,7 @@ namespace TwistFood.Service.Services.Products
 
         public async Task<IEnumerable<Product>> GetAllAsync(PagenationParams @params)
         {
-            var query = _unitOfWork.Products.GetAll()/*.Where(x => x.ProductName.ToLower().StartsWith("d"))*/
+            var query = _unitOfWork.Products.GetAll()
             .OrderBy(x => x.Id).ThenByDescending(x => x.Price);
 
             return await _paginatorService.ToPageAsync(query,

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -15,6 +16,8 @@ using TwistFood.Service.Dtos;
 using TwistFood.Service.Interfaces.Categories;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Services.Common;
+using TwistFood.Service.ViewModels.Categories;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Service.Services.Categories
 {
@@ -51,14 +54,35 @@ namespace TwistFood.Service.Services.Categories
                 @params.PageNumber, @params.PageSize);
         }
 
-        public async Task<Category> GetAsync(long id)
+        public async Task<CategoryViewModels> GetAsync(long id)
         {
-            var res = await _unitOfWork.Categories.FindByIdAsync(id);
-            if (res is not null)
+            var category = await _unitOfWork.Categories.FindByIdAsync(id);
+            if (category is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found");
+
+            var products = _unitOfWork.Products.GetAll().AsNoTracking().Where(x => x.CategoryId == category.Id).ToList();
+
+            List<ProductViewModel> list = new List<ProductViewModel>();
+
+            foreach ( var product in products)
             {
-                return res;
+                ProductViewModel productViewModel = new ProductViewModel()
+                {
+                    Id = product.Id,
+                    ImagePath = product.ImagePath,
+                    Price = product.Price,
+                    ProductDescription = product.ProductDescription,
+                    ProductName = product.ProductName
+                };
+                list.Add(productViewModel);
+
             }
-            else throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found");
+
+            return new CategoryViewModels()
+                    {
+                        Id = category.Id,
+                        CategoryName = category.CategoryName,
+                        Products = list
+                    };
         }
 
         public async Task<bool> DeleteAsync(long id)

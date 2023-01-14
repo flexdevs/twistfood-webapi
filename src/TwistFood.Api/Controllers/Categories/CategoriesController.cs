@@ -27,7 +27,7 @@ namespace TwistFood.Api.Controllers.Categories
         public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
         => Ok(await _categoryService.GetAllAsync(new PagenationParams(page)));
 
-        [HttpGet("{id}"), Authorize(Roles = "head, nohead")]
+        [HttpGet("{id}"), AllowAnonymous]
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _categoryService.GetAsync(id));
 
