@@ -18,7 +18,7 @@ namespace TwistFood.Api.Controllers.Orders
         }
 
         [HttpPost("Create"), AllowAnonymous]
-        public async Task<IActionResult> OrderCreateAsync( long orderId,[FromBody] OrderDeteilsCreateDto orderDeteilsDto)
+        public async Task<IActionResult> OrderCreateAsync(long orderId,[FromBody] OrderDeteilsCreateDto orderDeteilsDto)
             => Ok(await _orderDetailService.OrderCreateAsync(orderId, orderDeteilsDto));
 
 

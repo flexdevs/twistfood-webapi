@@ -36,7 +36,7 @@ namespace TwistFood.Service.Services.Orders
             var product = await _unitOfWork.Products.FindByIdAsync(orderDeteilsDto.ProductId);  
             if (product == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found"); }
 
-            orderdetail.ProductId = OrderId;
+            orderdetail.ProductId = orderDeteilsDto.ProductId;
             orderdetail.Amount = orderDeteilsDto.Amount;
             orderdetail.Price= orderDeteilsDto.Price;   
             
