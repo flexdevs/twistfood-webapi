@@ -47,6 +47,18 @@ namespace TwistFood.Service.Services.Orders
 
         }
 
+        public async Task<bool> OrderDeleteAsync(long id)
+        {
+            var orderDetail = await _unitOfWork.OrderDetails.FindByIdAsync(id);
+            if (orderDetail == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order detail not found"); }
+
+            _unitOfWork.OrderDetails.Delete(id);
+
+            var result = await _unitOfWork.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public async Task<bool> OrderUpdateAsync(OrderDetailUpdateDto dto)
         {
             var orderDetail = await _unitOfWork.OrderDetails.FindByIdAsync(dto.OrderDetailId);
@@ -62,7 +74,7 @@ namespace TwistFood.Service.Services.Orders
                 
             if (dto.ProductId is not null)
             {
-                var product = _unitOfWork.Products.FindByIdAsync((long)dto.ProductId);
+                var product = await _unitOfWork.Products.FindByIdAsync((long)dto.ProductId);
                 if (product == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found"); }
                 orderDetail.ProductId = product.Id; 
             }

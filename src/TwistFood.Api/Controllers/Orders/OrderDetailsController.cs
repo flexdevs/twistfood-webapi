@@ -25,5 +25,9 @@ namespace TwistFood.Api.Controllers.Orders
         [HttpPut("Update"), AllowAnonymous]
         public async Task<IActionResult> OrderUpdateAsync([FromForm] OrderDetailUpdateDto dto)
             => Ok(await _orderDetailService.OrderUpdateAsync(dto));
+
+        [HttpDelete("{id}"), AllowAnonymous]
+        public async Task<IActionResult> DeleteByIdAsync(long id)
+            => Ok(await _orderDetailService.OrderDeleteAsync(id));
     }
 }

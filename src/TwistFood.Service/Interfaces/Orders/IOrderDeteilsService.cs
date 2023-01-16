@@ -10,6 +10,7 @@ namespace TwistFood.Service.Interfaces.Orders
     public interface IOrderDeteilsService
     {
         public Task<bool> OrderCreateAsync(long OrderId, OrderDeteilsCreateDto orderDeteilsDto);
-        public Task<bool> OrderUpdateAsync( OrderDetailUpdateDto dto);
+        public Task<bool> OrderUpdateAsync(OrderDetailUpdateDto dto);
+        public Task<bool> OrderDeleteAsync(long id);
     }
 }

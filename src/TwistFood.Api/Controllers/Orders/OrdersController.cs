@@ -28,12 +28,12 @@ namespace TwistFood.Api.Controllers.Orders
             => Ok(await _orderService.OrderUpdateAsync(dto));
 
         [HttpGet("GetAll"), AllowAnonymous]
-        public async Task<IActionResult> GetAllAsync(PagenationParams @params)
-            => Ok(await _orderService.GetAllAsync(@params));
+        public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
+            => Ok(await _orderService.GetAllAsync(new PagenationParams(page)));
 
-        [HttpGet("{Id}"), AllowAnonymous]
+        [HttpGet("{id}"), AllowAnonymous]
 
-        public async Task<IActionResult> GetByIdAsync(long OrderId)
-            => Ok(await _orderService.GetOrderWithOrderDetailsAsync(OrderId));
+        public async Task<IActionResult> GetByIdAsync(long id)
+            => Ok(await _orderService.GetOrderWithOrderDetailsAsync(id));
     }
 }
