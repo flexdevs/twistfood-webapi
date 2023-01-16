@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Account;
 using TwistFood.Service.Dtos.Accounts;
+using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces.Accounts;
 
 namespace TwistFood.Api.Controllers.Users
 {
-    [Route("api/user")]
+    [Route("api/users")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -30,6 +32,18 @@ namespace TwistFood.Api.Controllers.Users
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto dto)
             => Ok(new { Token = await _accountService.AccountLoginAsync(dto) });
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateAsync([FromForm] AccountUpdateDto dto)
+            => Ok(await _accountService.AccountUpdateAsync(dto));
+
+        [HttpGet, Authorize(Roles = "head, nohead")]
+        public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
+        => Ok(await _accountService.GetAllAsync(new PagenationParams(page)));
+
+        [HttpGet("{id}"), AllowAnonymous]
+        public async Task<IActionResult> GetByIdAsync(long id)
+            => Ok(await _accountService.GetAsync(id));
 
         [HttpGet("send-to-phone-number")]
         public async Task<IActionResult> SendCodeAsync([FromQuery] SendToPhoneNumberDto dto)

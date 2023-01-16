@@ -14,8 +14,6 @@ namespace TwistFood.Service.Dtos.Orders
 {
     public class OrderCreateDto
     {
-        [Required]
-        public long UserId { get; set; }
         [Required,Integer]
         public double Latitude { get; set; }
         [Required, Integer]
@@ -30,7 +28,6 @@ namespace TwistFood.Service.Dtos.Orders
         {
             return new Order()
             {
-                UserId = dto.UserId,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt= DateTime.UtcNow, 
                 DeleviryPrice = dto.DeliverPrice,

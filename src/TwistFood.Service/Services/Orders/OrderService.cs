@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -10,6 +11,7 @@ using TwistFood.Domain.Common;
 using TwistFood.Domain.Entities.Order;
 using TwistFood.Domain.Enums;
 using TwistFood.Domain.Exceptions;
+using TwistFood.Service.Common.Helpers;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Common;
@@ -26,7 +28,7 @@ namespace TwistFood.Service.Services.Orders
         public OrderService(IUnitOfWork unitOfWork, IPaginatorService paginatorService)
         {
             _unitOfWork = unitOfWork;
-            this._paginatorService = paginatorService;  
+            this._paginatorService = paginatorService;
 
         }
 
@@ -120,7 +122,7 @@ namespace TwistFood.Service.Services.Orders
 
         public async Task<long> OrderCreateAsync(OrderCreateDto dto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(dto.UserId);
+            var user = await _unitOfWork.Users.FindByIdAsync(HttpContextHelper.UserId);
             if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
             Location location = new Location() { Latitude = dto.Latitude, Longitude = dto.Longitude }; 
             _unitOfWork.Locations.Add(location);

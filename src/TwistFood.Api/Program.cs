@@ -27,6 +27,7 @@ using TwistFood.Service.Services.Discounts;
 using TwistFood.Service.Services.Operators;
 using TwistFood.Service.Services.Orders;
 using TwistFood.Service.Services.Products;
+using TwistFood.Service.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +83,9 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+if (app.Services.GetService<IHttpContextAccessor>() != null)
+    HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
 
 app.UseCors("corspolicy");
 
