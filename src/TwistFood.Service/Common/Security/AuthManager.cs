@@ -33,7 +33,7 @@ public class AuthManager : IAuthManager
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
         var tokenDescriptor = new JwtSecurityToken(_config["Issuer"], _config["Audience"], claims,
-            expires: DateTime.Now.AddMinutes(int.Parse(_config["Lifetime"])),
+            expires: DateTime.Now.AddDays(int.Parse(_config["Lifetime"])),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
@@ -53,7 +53,7 @@ public class AuthManager : IAuthManager
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
         var tokenDescriptor = new JwtSecurityToken(_config["Issuer"], _config["Audience"], claims,
-            expires: DateTime.Now.AddMinutes(int.Parse(_config["Lifetime"])),
+            expires: DateTime.Now.AddDays(int.Parse(_config["Lifetime"])),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
@@ -72,7 +72,7 @@ public class AuthManager : IAuthManager
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
         var tokenDescriptor = new JwtSecurityToken(_config["Issuer"], _config["Audience"], claims,
-            expires: DateTime.Now.AddMinutes(int.Parse(_config["Lifetime"])),
+            expires: DateTime.Now.AddDays(int.Parse(_config["Lifetime"])),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);

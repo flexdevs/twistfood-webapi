@@ -13,7 +13,7 @@ namespace TwistFood.Service.Interfaces.Orders
 {
     public interface IOrderService
     {
-        public Task<Order> OrderCreateAsync(OrderCreateDto dto);
+        public Task<long> OrderCreateAsync(OrderCreateDto dto);
         public Task<bool> OrderUpdateAsync(OrderUpdateDto dto);
         public Task<IEnumerable<OrderViewModel>> GetAllAsync(PagenationParams @params);
         public Task<OrderWithOrderDetailsViewModel> GetOrderWithOrderDetailsAsync(long OrderId);

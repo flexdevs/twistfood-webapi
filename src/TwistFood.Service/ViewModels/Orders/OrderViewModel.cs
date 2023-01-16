@@ -18,7 +18,9 @@ namespace TwistFood.Service.ViewModels.Orders
         public PaymentType paymentType { get; set; }
         public OrderStatus Status { get; set; }
         public string OrderDetails { get; set; } = string.Empty;
-        public long @oreratorId { get; set; }
+        public long @operatorId { get; set; }
+
+        public long deliverId { get; set; }
 
     }
 }
