@@ -26,7 +26,7 @@ public class AuthManager : IAuthManager
             new Claim("Id", @operator.Id.ToString()),
             new Claim("FullName", @operator.FirstName + " " + @operator.LastName),
             new Claim("Email", @operator.Email),
-            new Claim("PhoneNumber",@operator.PhoneNumber)
+            new Claim(ClaimTypes.Role, (@operator.IsHead == true) ? "head" : "nohead")
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretKey"]));
