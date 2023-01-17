@@ -71,8 +71,8 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 
 var app = builder.Build();
 
-app.Urls.Add("http://185.217.131.186:5055");
-app.Urls.Add("http://localhost:5055");
+/*app.Urls.Add("http://185.217.131.186:5055");
+app.Urls.Add("http://localhost:5055");*/
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseStaticFiles();

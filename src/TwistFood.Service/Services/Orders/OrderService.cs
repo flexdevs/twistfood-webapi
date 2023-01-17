@@ -131,6 +131,7 @@ namespace TwistFood.Service.Services.Orders
             if (Ilocation == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Location not found"); }
 
             var order = (Order)dto;
+            order.UserId = user.Id;
             order.ILocationId = Ilocation.Id;
             _unitOfWork.Orders.Add(order);
             await _unitOfWork.SaveChangesAsync();
