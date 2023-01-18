@@ -12,6 +12,6 @@ namespace TwistFood.Service.Interfaces.Accounts
     {
         public Task<bool> SendCodeAsync(SendToPhoneNumberDto sendToPhoneNumberDto);
 
-        public Task<bool> VerifyPhoneNumber(VerifyPhoneNumberDto verifyPhoneNumberDto);
+        public Task<string> VerifyPhoneNumber(VerifyPhoneNumberDto verifyPhoneNumberDto);
     }
 }

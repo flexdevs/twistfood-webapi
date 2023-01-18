@@ -23,5 +23,11 @@ namespace TwistFood.Service.Common.Helpers
             bool canParse = long.TryParse(HttpContext?.User?.Claims.FirstOrDefault(p => p.Type == "Id")?.Value, out id);
             return canParse ? id : 0;
         }
+        public static bool IsUser => IsUserOrAdmin();
+        private static bool IsUserOrAdmin()
+        {
+            var claim = (HttpContext?.User?.Claims.FirstOrDefault(x => x.Type == "Role"));
+            return claim is null ? true : false; 
+        }
     }
 }
