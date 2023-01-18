@@ -17,6 +17,8 @@ using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Products;
 using TwistFood.Service.Services.Common;
+using TwistFood.Service.ViewModels.Orders;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Service.Services.Products
 {
@@ -71,34 +73,75 @@ namespace TwistFood.Service.Services.Products
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync(PagenationParams @params)
+        public async Task<IEnumerable<ProductViewModel>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Products.GetAll()
             .OrderBy(x => x.Id).ThenByDescending(x => x.Price);
-
-            return await _paginatorService.ToPageAsync(query,
+            var res = await _paginatorService.ToPageAsync(query,
                 @params.PageNumber, @params.PageSize);
+
+            List<ProductViewModel> result = new List<ProductViewModel>();
+
+            foreach (var product in res)
+            {
+                ProductViewModel productViewModel = new ProductViewModel()
+                {
+                    Id = product.Id,
+                    ProductName = product.ProductName,
+                    ProductDescription= product.ProductDescription,
+                    Price= product.Price,
+                    ImagePath= "http://twistfood.uz:5055/" + product.ImagePath,
+                };
+
+                result.Add(productViewModel);
+            }
+
+            return result;
         }
 
-        public async Task<IEnumerable<Product>> SearchByNameAsync(string name)
+        public async Task<IEnumerable<ProductViewModel>> SearchByNameAsync(string name)
         {
-            var query = _unitOfWork.Products.Where(x => x.ProductName.ToLower().StartsWith(name.ToLower()))
+            var res = await _unitOfWork.Products.Where(x => x.ProductName.ToLower().StartsWith(name.ToLower()))
                                             .OrderBy(x => x.Id).ThenByDescending(x => x.Price)
                                             .ToListAsync();
 
-            if(query is not null)
+            if(res is not null)
             {
-                return await query;
+                List<ProductViewModel> result = new List<ProductViewModel>();
+
+                foreach (var product in res)
+                {
+                    ProductViewModel productViewModel = new ProductViewModel()
+                    {
+                        Id = product.Id,
+                        ProductName = product.ProductName,
+                        ProductDescription = product.ProductDescription,
+                        Price = product.Price,
+                        ImagePath = "http://twistfood.uz:5055/" + product.ImagePath,
+                    };
+
+                    result.Add(productViewModel);
+                }
+                return result;
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
 
-        public async Task<Product> GetAsync(long id)
+        public async Task<ProductViewModel> GetAsync(long id)
         {
-            var res = await _unitOfWork.Products.FindByIdAsync(id);
-            if (res is not null)
+            var product = await _unitOfWork.Products.FindByIdAsync(id);
+            if (product is not null)
             {
-                return res;
+                ProductViewModel productViewModel = new ProductViewModel()
+                {
+                    Id = product.Id,
+                    ProductName = product.ProductName,
+                    ProductDescription = product.ProductDescription,
+                    Price = product.Price,
+                    ImagePath = "http://twistfood.uz:5055/" + product.ImagePath,
+                };
+
+                return productViewModel;
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }

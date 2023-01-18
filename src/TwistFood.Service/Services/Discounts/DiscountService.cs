@@ -18,6 +18,8 @@ using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Discounts;
+using TwistFood.Service.ViewModels.Discounts;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Service.Services.Discounts
 {
@@ -68,21 +70,52 @@ namespace TwistFood.Service.Services.Discounts
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Discount not found");
         }
 
-        public async Task<IEnumerable<Discount>> GetAllAsync(PagenationParams @params)
+        public async Task<IEnumerable<DiscountViewModel>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Discounts.GetAll()
             .OrderBy(x => x.Id).ThenByDescending(x => x.Price);
 
-            return await _paginatorService.ToPageAsync(query,
+            var res =  await _paginatorService.ToPageAsync(query,
                 @params.PageNumber, @params.PageSize);
+
+            List<DiscountViewModel> result = new List<DiscountViewModel>();
+
+            foreach (var discount in res)
+            {
+                DiscountViewModel discountViewModel = new DiscountViewModel()
+                {
+                    Id = discount.Id,
+                    DiscountName = discount.DiscountName,
+                    DiscountDescription = discount.Description,
+                    StartTime = discount.StartTime.ToShortDateString(),
+                    EndTime= discount.EndTime.ToShortDateString(),
+                    Price = discount.Price,
+                    ImagePath = "http://twistfood.uz:5055/" + discount.ImagePath,
+                };
+
+                result.Add(discountViewModel);
+            }
+
+            return result;
         }
 
-        public async Task<Discount> GetAsync(long id)
+        public async Task<DiscountViewModel> GetAsync(long id)
         {
-            var res = await _unitOfWork.Discounts.FindByIdAsync(id);
-            if (res is not null)
+            var discount = await _unitOfWork.Discounts.FindByIdAsync(id);
+            if (discount is not null)
             {
-                return res;
+                DiscountViewModel discountViewModel = new DiscountViewModel()
+                {
+                    Id = discount.Id,
+                    DiscountName = discount.DiscountName,
+                    DiscountDescription = discount.Description,
+                    StartTime = discount.StartTime.ToShortDateString(),
+                    EndTime = discount.EndTime.ToShortDateString(),
+                    Price = discount.Price,
+                    ImagePath = "http://twistfood.uz:5055/" + discount.ImagePath,
+                };
+
+                return discountViewModel;
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Discount not found");
         }
