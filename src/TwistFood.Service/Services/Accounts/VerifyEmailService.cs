@@ -25,7 +25,7 @@ namespace TwistFood.Service.Services.Accounts
             _emailService = email;
             _context = appDbContext;
         }
-        public async Task SendCodeAsync(SendCodeToEmailDto sendCodeToEmailDto)
+        public async Task<bool> SendCodeAsync(SendCodeToEmailDto sendCodeToEmailDto)
         {
             int code = new Random().Next(1000, 9999);
 
@@ -39,9 +39,11 @@ namespace TwistFood.Service.Services.Accounts
             };
 
             await _emailService.SendAsync(message);
+
+            return true;
         }
 
-        public async Task VerifyEmail(EmailVerifyDto emailVerifyDto)
+        public async Task<bool> VerifyEmail(EmailVerifyDto emailVerifyDto)
         {
             var entity = await _context.Admins.FirstOrDefaultAsync(admin => admin.Email == emailVerifyDto.Email);
 
@@ -59,9 +61,11 @@ namespace TwistFood.Service.Services.Accounts
             }
             else
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is expired");
+
+            return true;
         }
 
-        public async Task VerifyPasswordAsync(ResetPasswordDto resetPasswordDto)
+        public async Task<bool> VerifyPasswordAsync(ResetPasswordDto resetPasswordDto)
         {
             var user = await _context.Admins.FirstOrDefaultAsync(p => p.Email == resetPasswordDto.Email);
 
@@ -75,6 +79,8 @@ namespace TwistFood.Service.Services.Accounts
             }
             else
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is expired");
+
+            return true;
         }
     }
 }

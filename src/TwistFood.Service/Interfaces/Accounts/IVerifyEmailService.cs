@@ -9,10 +9,10 @@ namespace TwistFood.Service.Interfaces.Accounts
 {
     public interface IVerifyEmailService
     {
-        Task SendCodeAsync(SendCodeToEmailDto sendCodeToEmailDto);
+        Task<bool> SendCodeAsync(SendCodeToEmailDto sendCodeToEmailDto);
 
-        Task VerifyEmail(EmailVerifyDto emailVerifyDto);
+        Task<bool> VerifyEmail(EmailVerifyDto emailVerifyDto);
 
-        Task VerifyPasswordAsync(ResetPasswordDto resetPasswordDto);
+        Task<bool> VerifyPasswordAsync(ResetPasswordDto resetPasswordDto);
     }
 }

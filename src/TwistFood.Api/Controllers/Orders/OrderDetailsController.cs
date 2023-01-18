@@ -6,7 +6,7 @@ using TwistFood.Service.Services.Orders;
 
 namespace TwistFood.Api.Controllers.Orders
 {
-    [Route("api/orderDetails")]
+    [Route("api/order-details")]
     [ApiController]
     public class OrderDetailsController : ControllerBase
     {
@@ -17,12 +17,12 @@ namespace TwistFood.Api.Controllers.Orders
             this._orderDetailService = orderdeltailService;
         }
 
-        [HttpPost("Create"), AllowAnonymous]
+        [HttpPost, AllowAnonymous]
         public async Task<IActionResult> OrderCreateAsync(long orderId,[FromBody] OrderDeteilsCreateDto orderDeteilsDto)
             => Ok(await _orderDetailService.OrderCreateAsync(orderId, orderDeteilsDto));
 
 
-        [HttpPut("Update"), AllowAnonymous]
+        [HttpPut, AllowAnonymous]
         public async Task<IActionResult> OrderUpdateAsync([FromForm] OrderDetailUpdateDto dto)
             => Ok(await _orderDetailService.OrderUpdateAsync(dto));
 

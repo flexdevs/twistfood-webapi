@@ -33,7 +33,7 @@ namespace TwistFood.Api.Controllers.Product
         public async Task<IActionResult> SearchByNameAsync(string name)
             => Ok(await _productService.SearchByNameAsync(name));
 
-        [HttpGet("searchAll"), AllowAnonymous]
+        [HttpGet("search"), AllowAnonymous]
         public async Task<IActionResult> ProductForSearchAsync([FromQuery] string? categryName = "", [FromQuery] string? searchname = "")
           => Ok(await _productService.GetAllForSearchAsync(categryName,searchname));
 
@@ -41,11 +41,11 @@ namespace TwistFood.Api.Controllers.Product
         public async Task<IActionResult> DeleteByIdAsync(long id)
             => Ok(await _productService.DeleteAsync(id));
 
-        [HttpPost("create"), Authorize(Roles = "head, nohead")]
+        [HttpPost, Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateProductsDto dto)
             => Ok(await _productService.CreateProductAsync(dto));
 
-        [HttpPut("update"), Authorize(Roles = "head, nohead")]
+        [HttpPut, Authorize(Roles = "head, nohead")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] UpdateProductDto dto)
             => Ok(await _productService.UpdateAsync(id, dto));
     }
