@@ -12,8 +12,8 @@ namespace TwistFood.Service.ViewModels.Orders
     {
         public string UserPhoneNumber { get; set; } = string.Empty;
         public double TotalSum { get; set; }
-        public PaymentType paymentType { get; set; }
-        public OrderStatus Status { get; set; }
+        public string paymentType { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
         public List<OrderDetailViewModel> OrderDetails { get; set; }
     }
 }

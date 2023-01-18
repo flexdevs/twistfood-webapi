@@ -61,10 +61,13 @@ namespace TwistFood.Service.Services.Orders
             if (orderDetail == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order detail not found"); }
             var order = await _unitOfWork.Orders.FindByIdAsync(orderDetail.OrderId);
             if (order == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
+            _unitOfWork.Entry(order).State = EntityState.Detached;
             if (HttpContextHelper.IsUser)
             {
                 if (order.UserId != HttpContextHelper.UserId) { throw new StatusCodeException(HttpStatusCode.Unauthorized, "Unauthorized"); }
             }
+            order.TotalSum-= orderDetail.Price; 
+            _unitOfWork.Orders.Update(order.Id,order);
             _unitOfWork.OrderDetails.Delete(id);
 
             var result = await _unitOfWork.SaveChangesAsync();

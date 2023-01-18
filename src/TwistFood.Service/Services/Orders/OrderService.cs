@@ -48,8 +48,8 @@ namespace TwistFood.Service.Services.Orders
                 {
                     Id = order.Id,  
                     CreatedAt= order.CreatedAt, 
-                    paymentType= order.PaymentType,
-                    Status= order.Status,   
+                    paymentType= order.PaymentType.ToString(),
+                    Status= order.Status.ToString(),   
                     TotalSum= order.TotalSum, 
                     UpdatedAt= order.UpdatedAt
                 };
@@ -93,8 +93,8 @@ namespace TwistFood.Service.Services.Orders
             {
                 Id = order.Id,
                 CreatedAt = order.CreatedAt,
-                paymentType = order.PaymentType,
-                Status = order.Status,
+                paymentType = order.PaymentType.ToString(),
+                Status = order.Status.ToString(),
                 TotalSum = order.TotalSum,
                 UpdatedAt = order.UpdatedAt,
             };
