@@ -28,6 +28,7 @@ using TwistFood.Service.Services.Operators;
 using TwistFood.Service.Services.Orders;
 using TwistFood.Service.Services.Products;
 using TwistFood.Service.Common.Helpers;
+using System.Drawing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,12 +68,10 @@ builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 
-
-
 var app = builder.Build();
 
-/*app.Urls.Add("http://185.217.131.186:5055");
-app.Urls.Add("http://localhost:5055");*/
+app.Urls.Add("http://185.217.131.186:5055");
+app.Urls.Add("http://localhost:5055");
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseStaticFiles();
