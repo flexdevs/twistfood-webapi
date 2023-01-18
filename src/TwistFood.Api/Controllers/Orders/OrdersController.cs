@@ -19,15 +19,15 @@ namespace TwistFood.Api.Controllers.Orders
             this._orderService = orderService;
         }
 
-        [HttpPost("Create"), AllowAnonymous]
+        [HttpPost, AllowAnonymous]
         public async Task<IActionResult> OrderCreateAsync([FromForm] OrderCreateDto dto)
             => Ok(await _orderService.OrderCreateAsync(dto));
 
-        [HttpPut("Update"), AllowAnonymous]
+        [HttpPut, AllowAnonymous]
         public async Task<IActionResult> OrderUpdateAsync([FromForm] OrderUpdateDto dto)
             => Ok(await _orderService.OrderUpdateAsync(dto));
 
-        [HttpGet("GetAll"), AllowAnonymous]
+        [HttpGet, AllowAnonymous]
         public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
             => Ok(await _orderService.GetAllAsync(new PagenationParams(page)));
 
