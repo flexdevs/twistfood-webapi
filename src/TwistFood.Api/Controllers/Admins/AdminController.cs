@@ -33,24 +33,23 @@ namespace TwistFood.Api.Controllers.Admins
             => Ok(new { Token = await _adminService.AdminLoginAsync(dto) });
 
         [HttpPost("verify-email"), AllowAnonymous]
-        public async Task<IActionResult> VerifyEmail([FromForm] EmailVerifyDto email)
+        public async Task<IActionResult> VerifyEmail([FromBody] EmailVerifyDto email)
         {
-            await _emailService.VerifyEmail(email);
-            return Ok();
+            
+            return Ok(await _emailService.VerifyEmail(email));
         }
 
         [HttpPost("send-code-to-email"), AllowAnonymous]
-        public async Task<IActionResult> SendToEmail([FromForm] SendCodeToEmailDto email)
+        public async Task<IActionResult> SendToEmail([FromBody] SendCodeToEmailDto email)
         {
-            await _emailService.SendCodeAsync(email);
-            return Ok();
+            return Ok(await _emailService.SendCodeAsync(email));
         }
 
         [HttpPost("reset-password"), AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromForm] ResetPasswordDto forgotPassword)
+        public async Task<IActionResult> ForgotPassword([FromBody] ResetPasswordDto forgotPassword)
         {
-            await _emailService.VerifyPasswordAsync(forgotPassword);
-            return Ok();
+            
+            return Ok(await _emailService.VerifyPasswordAsync(forgotPassword));
         }
     }
 }

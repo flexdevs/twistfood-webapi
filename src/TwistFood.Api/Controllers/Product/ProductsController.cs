@@ -33,7 +33,7 @@ namespace TwistFood.Api.Controllers.Product
         public async Task<IActionResult> SearchByNameAsync(string name)
             => Ok(await _productService.SearchByNameAsync(name));
 
-        [HttpGet("searchAll"), AllowAnonymous]
+        [HttpGet("search"), AllowAnonymous]
         public async Task<IActionResult> ProductForSearchAsync([FromQuery] string? categryName = "", [FromQuery] string? searchname = "")
           => Ok(await _productService.GetAllForSearchAsync(categryName,searchname));
 
