@@ -26,7 +26,7 @@ namespace TwistFood.Service.Common.Helpers
         public static bool IsUser => IsUserOrAdmin();
         private static bool IsUserOrAdmin()
         {
-            var claim = (HttpContext?.User?.Claims.FirstOrDefault(x => x.Type == "Role"));
+            var claim = (HttpContext?.User?.Claims.FirstOrDefault(x => x.Type.Contains("role")));
             return claim is null ? true : false; 
         }
     }
