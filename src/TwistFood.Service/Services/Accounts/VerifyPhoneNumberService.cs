@@ -11,6 +11,7 @@ using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Accounts;
+using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
 
 namespace TwistFood.Service.Services.Accounts
@@ -19,14 +20,18 @@ namespace TwistFood.Service.Services.Accounts
     {
         private readonly IMemoryCache _cache;
         private readonly IUnitOfWork _context;
+        private readonly IAuthManager _authManager;
 
-        public VerifyPhoneNumberService(IMemoryCache cache, IUnitOfWork unitOfWork)
+        public VerifyPhoneNumberService(IMemoryCache cache, IUnitOfWork unitOfWork, IAuthManager authManager)
         {
             _cache = cache;
             _context = unitOfWork;
+            _authManager = authManager;
         }
         public async Task<bool> SendCodeAsync(SendToPhoneNumberDto sendToPhoneNumberDto)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(x=> x.PhoneNumber== sendToPhoneNumberDto.PhoneNumber);
+            if (user is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
             Random r = new Random();
             int code = r.Next(1000, 9999);
 
@@ -47,14 +52,20 @@ namespace TwistFood.Service.Services.Accounts
             return true;
         }
 
-        public async Task<bool> VerifyPhoneNumber(VerifyPhoneNumberDto verifyPhoneNumberDto)
+        public async Task<string> VerifyPhoneNumber(VerifyPhoneNumberDto verifyPhoneNumberDto)
         {
             if (_cache.TryGetValue(verifyPhoneNumberDto.PhoneNumber, out int exceptedCode))
             {
                 if (exceptedCode != verifyPhoneNumberDto.Code)
                     throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is wrong!");
 
-                else return true;
+                else
+                {
+                    var user = await _context.Users.FirstOrDefaultAsync(x => x.PhoneNumber == verifyPhoneNumberDto.PhoneNumber);
+                    if (user is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
+
+                    return _authManager.GenerateUserToken(user); 
+                }
             }
             else
                 throw new StatusCodeException(HttpStatusCode.BadRequest, message: "Code is expired");

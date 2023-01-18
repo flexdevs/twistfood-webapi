@@ -29,9 +29,6 @@ namespace TwistFood.Api.Controllers.Users
         public async Task<IActionResult> RegisterAsync([FromForm] AccountRegisterDto dto)
             => Ok(await _accountService.AccountRegisterAsync(dto));
 
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto dto)
-            => Ok(new { Token = await _accountService.AccountLoginAsync(dto) });
 
         [HttpPut("update")]
         public async Task<IActionResult> UpdateAsync([FromForm] AccountUpdateDto dto)

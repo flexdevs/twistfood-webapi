@@ -37,14 +37,7 @@ namespace TwistFood.Service.Services.Accounts
             _paginatorService = paginatorService;
         }
 
-        public async Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto)
-        {
-            var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountLoginDto.PhoneNumber);
-            if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found, Phone Number is incorrect!"); }
-
-            return _authManager.GenerateUserToken(user);
-        }
-
+     
         public async Task<bool> AccountRegisterAsync(AccountRegisterDto accountRegisterDto)
         {
             var res = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegisterDto.PhoneNumber);
